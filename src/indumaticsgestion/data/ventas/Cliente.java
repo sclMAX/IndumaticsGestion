@@ -10,5 +10,12 @@ import indumaticsgestion.data.comun.Persona;
 public class Cliente extends Persona{
     @Indexed
     private int id;
-    private Zona zona;    
+    private Zona zona;   
+
+    @Override
+    public String toString() {
+        return Integer.toString(id);
+    }
+    
+    
 }

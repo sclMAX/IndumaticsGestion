@@ -74,6 +74,11 @@ public final class Telefono {
     public void setComentario(String comentario) {
         this.comentario = comentario;
     }
+
     //</editor-fold>
+    @Override
+    public String toString() {
+        return  numero;
+    }
 
 }

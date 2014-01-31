@@ -4,12 +4,12 @@ package indumaticsgestion.data.comun;
  *
  * @author Maxi
  */
-public class Email {
+public class Zona {
 
     String email;
     String comentario;
 
-    public Email(String email, String comentario) {
+    public Zona(String email, String comentario) {
         this.email = email;
         this.comentario = comentario;
     }
@@ -33,4 +33,8 @@ public class Email {
         this.comentario = comentario;
     }
 
+    @Override
+    public String toString() {
+        return email;
+    }
 }

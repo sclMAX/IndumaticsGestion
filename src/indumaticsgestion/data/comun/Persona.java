@@ -14,7 +14,7 @@ public class Persona {
     String direccion;
     Set<Telefono> telefonos = new HashSet<>();
     Localidad localidad;
-    Set<Email> emails = new HashSet<>();
+    Set<Zona> emails = new HashSet<>();
     PosGPS posGPS;
 
     
@@ -69,23 +69,23 @@ public class Persona {
         this.localidad = localidad;
     }
     
-     public Set<Email> getEmails() {
+     public Set<Zona> getEmails() {
         return emails;
     }
 
-    public void setEmails(Set<Email> emails) {
+    public void setEmails(Set<Zona> emails) {
         this.emails = emails;
     }
     
-    public void addEmail(Email email){
+    public void addEmail(Zona email){
         this.emails.add(email);
     }
     
-    public boolean removeEmail(Email email){
+    public boolean removeEmail(Zona email){
         return this.emails.remove(email);
     }
     
-    public void updateEmail(Email email) throws Exception{
+    public void updateEmail(Zona email) throws Exception{
         if(removeEmail(email)){
             addEmail(email);
         }
