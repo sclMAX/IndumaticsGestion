@@ -1,5 +1,6 @@
 package indumaticsgestion.data.comun;
 
+import com.db4o.config.annotations.Indexed;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -8,12 +9,13 @@ import java.util.Set;
  * @author Maxi
  */
 public class Persona {
-
+    @Indexed
     String nombre;
     String direccion;
     Set<Telefono> telefonos = new HashSet<>();
     Localidad localidad;
     Set<Email> emails = new HashSet<>();
+    PosGPS posGPS;
 
     
     //<editor-fold defaultstate="collapsed" desc="Getters and Setters">
