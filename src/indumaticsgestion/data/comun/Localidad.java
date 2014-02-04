@@ -5,31 +5,22 @@ package indumaticsgestion.data.comun;
  * @author Maxi
  */
 public class Localidad {
-    public String cp;
+
     public String localidad;
     public String provincia;
     public String pais;
-    public Localidad(String cp, String localidad, String provincia, String pais) {
-        this.cp = cp;
+
+    public Localidad(String localidad, String provincia, String pais) {
         this.localidad = localidad;
         this.provincia = provincia;
         this.pais = pais;
     }
+
+    public Localidad() {
+    }
+    
+    
     //<editor-fold defaultstate="collapsed" desc="Getters and Setters">
-
-    /**
-     * @return the cp
-     */
-    public String getCp() {
-        return cp;
-    }
-
-    /**
-     * @param cp the cp to set
-     */
-    public void setCp(String cp) {
-        this.cp = cp;
-    }
 
     /**
      * @return the localidad
@@ -73,5 +64,5 @@ public class Localidad {
         this.pais = pais;
     }
      //</editor-fold>
-    
+
 }

@@ -18,6 +18,11 @@ public final class Telefono {
         this.setComentario(comentario);
     }
 
+    public Telefono() {
+    }
+    
+    
+
     //<editor-fold defaultstate="collapsed" desc="Getters and Setters">
     /**
      * @return the numero

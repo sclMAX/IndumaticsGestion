@@ -6,6 +6,8 @@
 
 package indumaticsgestion;
 
+import indumaticsgestion.guis.principal.VentanaPrincipal;
+
 /**
  *
  * @author Maxi
@@ -16,7 +18,7 @@ public class IndumaticsGestion {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        new VentanaPrincipal().setVisible(true);
     }
     
 }

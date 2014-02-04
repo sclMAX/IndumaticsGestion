@@ -13,6 +13,7 @@ public class Persona {
     String nombre;
     String direccion;
     Set<Telefono> telefonos = new HashSet<>();
+    String cp;
     Localidad localidad;
     Set<Zona> emails = new HashSet<>();
     PosGPS posGPS;
@@ -61,6 +62,14 @@ public class Persona {
         }
     }
 
+    public String getCp(){
+        return cp;
+    }
+    
+    public void setCp(String cp){
+        this.cp = cp;
+    }
+    
     public Localidad getLocalidad() {
         return localidad;
     }

@@ -12,8 +12,9 @@ public class dlgAMZona extends java.awt.Dialog {
 
     public static final int RET_CANCEL = 0;
     public static final int RET_OK = 1;
-    private Zona zona = null;
     public int returnStatus = RET_CANCEL;
+    private Zona zona = null;
+    
 
     /**
      * Creates new form dlgAMTelefono

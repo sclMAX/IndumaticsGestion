@@ -1,7 +1,8 @@
 package indumaticsgestion.guis.comun;
 
 import indumaticsgestion.data.comun.Telefono;
-
+import indumaticsgestion.data.comun.Utils;
+import javax.swing.JOptionPane;
 /**
  *
  * @author Maxi
@@ -11,7 +12,7 @@ public class dlgAMTelefono extends java.awt.Dialog {
     public static final int RET_CANCEL = 0;
     public static final int RET_OK = 1;
     private Telefono telefono = null;
-    private int returnStatus = RET_CANCEL;
+    public int returnStatus = RET_CANCEL;
 
     /**
      * Creates new form dlgAMTelefono
@@ -24,14 +25,17 @@ public class dlgAMTelefono extends java.awt.Dialog {
         super(parent, modal);
         initComponents();
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("indumaticsgestion/recursos/strings"); // NOI18N
-        if (telefono != null) {
+        if (telefono == null) {
             this.setTitle(bundle.getString("telefonoInsert"));
-            telefono = new Telefono(null, null, null, null);
+            this.telefono = new Telefono();
         } else {
             this.setTitle(bundle.getString("telefonoEdit"));
             this.telefono = telefono;
             setData();
         }
+        this.setLocationRelativeTo(null);
+        setIconImage(Utils.iconToImage(jlLogo.getIcon()));
+
     }
 
     private void setData() {
@@ -42,10 +46,12 @@ public class dlgAMTelefono extends java.awt.Dialog {
     }
 
     private void getData() {
-        telefono.setNumero(jtNumero.getText());
-        telefono.setTipo(jtTipo.getText());
-        telefono.setContacto(jtContacto.getText());
-        telefono.setComentario(jtaComentarios.getText());
+        if (telefono != null) {
+            telefono.setNumero(jtNumero.getText());
+            telefono.setTipo(jtTipo.getText());
+            telefono.setContacto(jtContacto.getText());
+            telefono.setComentario(jtaComentarios.getText());
+        }
     }
 
     /**
@@ -56,12 +62,6 @@ public class dlgAMTelefono extends java.awt.Dialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jToolBar3 = new javax.swing.JToolBar();
-        frmIcon = new javax.swing.JLabel();
-        jToolBar1 = new javax.swing.JToolBar();
-        btnOk = new javax.swing.JButton();
-        btnCancel = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jtNumero = new javax.swing.JTextField();
@@ -72,8 +72,13 @@ public class dlgAMTelefono extends java.awt.Dialog {
         Comentarios = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtaComentarios = new javax.swing.JTextArea();
+        jPanel3 = new javax.swing.JPanel();
+        jToolBar2 = new javax.swing.JToolBar();
+        btnOk = new javax.swing.JButton();
+        btnCancel = new javax.swing.JButton();
+        jlLogo = new javax.swing.JLabel();
 
-        setBackground(new java.awt.Color(216, 241, 248));
+        setBackground(new java.awt.Color(102, 153, 255));
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("indumaticsgestion/recursos/strings"); // NOI18N
         setTitle(bundle.getString("telefonoEdit")); // NOI18N
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -82,84 +87,6 @@ public class dlgAMTelefono extends java.awt.Dialog {
             }
         });
 
-        jPanel1.setOpaque(false);
-
-        jToolBar3.setBorder(null);
-        jToolBar3.setFloatable(false);
-        jToolBar3.setOrientation(javax.swing.SwingConstants.VERTICAL);
-        jToolBar3.setRollover(true);
-        jToolBar3.setAutoscrolls(true);
-        jToolBar3.setMinimumSize(new java.awt.Dimension(32, 60));
-        jToolBar3.setOpaque(false);
-
-        frmIcon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        frmIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/indumaticsgestion/recursos/iconos/phone.gif"))); // NOI18N
-        frmIcon.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        frmIcon.setMaximumSize(new java.awt.Dimension(50, 50));
-        frmIcon.setMinimumSize(new java.awt.Dimension(50, 50));
-        frmIcon.setPreferredSize(new java.awt.Dimension(50, 50));
-        jToolBar3.add(frmIcon);
-
-        jToolBar1.setFloatable(false);
-        jToolBar1.setOrientation(javax.swing.SwingConstants.VERTICAL);
-        jToolBar1.setRollover(true);
-        jToolBar1.setOpaque(false);
-
-        btnOk.setIcon(new javax.swing.ImageIcon(getClass().getResource("/indumaticsgestion/recursos/iconos/btn_ok_48x48.gif"))); // NOI18N
-        btnOk.setToolTipText(bundle.getString("btnOKtooltip")); // NOI18N
-        btnOk.setFocusable(false);
-        btnOk.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnOk.setMaximumSize(new java.awt.Dimension(50, 50));
-        btnOk.setMinimumSize(new java.awt.Dimension(50, 50));
-        btnOk.setOpaque(false);
-        btnOk.setPreferredSize(new java.awt.Dimension(50, 50));
-        btnOk.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnOk.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnOkActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(btnOk);
-
-        btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/indumaticsgestion/recursos/iconos/btn_cancel_48x48.gif"))); // NOI18N
-        btnCancel.setToolTipText(bundle.getString("btnCanceltooltip")); // NOI18N
-        btnCancel.setFocusable(false);
-        btnCancel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnCancel.setMaximumSize(new java.awt.Dimension(50, 50));
-        btnCancel.setMinimumSize(new java.awt.Dimension(50, 50));
-        btnCancel.setOpaque(false);
-        btnCancel.setPreferredSize(new java.awt.Dimension(50, 50));
-        btnCancel.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnCancel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(btnCancel);
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(4, 4, 4)
-                .addComponent(jToolBar3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(2, 2, 2)
-                .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(5, 5, 5)
-                .addComponent(jToolBar3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         jPanel2.setOpaque(false);
 
         jLabel1.setText(bundle.getString("telefonoNro")); // NOI18N
@@ -194,7 +121,7 @@ public class dlgAMTelefono extends java.awt.Dialog {
                             .addComponent(Contacto)
                             .addComponent(Comentarios))
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -215,7 +142,65 @@ public class dlgAMTelefono extends java.awt.Dialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(Comentarios)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jPanel3.setOpaque(false);
+
+        jToolBar2.setFloatable(false);
+        jToolBar2.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        jToolBar2.setRollover(true);
+        jToolBar2.setOpaque(false);
+
+        btnOk.setIcon(new javax.swing.ImageIcon(getClass().getResource("/indumaticsgestion/recursos/iconos/btn_ok_48x48.gif"))); // NOI18N
+        btnOk.setToolTipText(bundle.getString("Aceptar")); // NOI18N
+        btnOk.setBorder(null);
+        btnOk.setFocusable(false);
+        btnOk.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnOk.setOpaque(false);
+        btnOk.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnOk.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOkActionPerformed(evt);
+            }
+        });
+        jToolBar2.add(btnOk);
+
+        btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/indumaticsgestion/recursos/iconos/btn_cancel_48x48.gif"))); // NOI18N
+        btnCancel.setToolTipText(bundle.getString("cancel")); // NOI18N
+        btnCancel.setBorder(null);
+        btnCancel.setFocusable(false);
+        btnCancel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnCancel.setOpaque(false);
+        btnCancel.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
+        jToolBar2.add(btnCancel);
+
+        jlLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/indumaticsgestion/recursos/iconos/phone.gif"))); // NOI18N
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jlLogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jToolBar2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jlLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -224,14 +209,14 @@ public class dlgAMTelefono extends java.awt.Dialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -246,8 +231,13 @@ public class dlgAMTelefono extends java.awt.Dialog {
     }//GEN-LAST:event_closeDialog
 
     private void btnOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOkActionPerformed
-        getData();
-        doClose(RET_OK);
+        if (!jtNumero.getText().equals("")) {
+            getData();
+            doClose(RET_OK);
+        }else{
+            JOptionPane.showMessageDialog(null, "No se ingreso el Numero de Telefono!");
+            jtNumero.requestFocus();
+        }
     }//GEN-LAST:event_btnOkActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
@@ -259,7 +249,7 @@ public class dlgAMTelefono extends java.awt.Dialog {
         setVisible(false);
         dispose();
     }
-    
+
     public Telefono getTelefono() {
         return this.telefono;
     }
@@ -289,14 +279,13 @@ public class dlgAMTelefono extends java.awt.Dialog {
     private javax.swing.JLabel Contacto;
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnOk;
-    private javax.swing.JLabel frmIcon;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JToolBar jToolBar1;
-    private javax.swing.JToolBar jToolBar3;
+    private javax.swing.JToolBar jToolBar2;
+    private javax.swing.JLabel jlLogo;
     private javax.swing.JTextField jtContacto;
     private javax.swing.JTextField jtNumero;
     private javax.swing.JTextField jtTipo;
