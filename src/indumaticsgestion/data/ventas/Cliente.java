@@ -12,9 +12,29 @@ public class Cliente extends Persona{
     private int id;
     private Zona zona;   
 
+    public Cliente() {
+    }
+
+    
     @Override
     public String toString() {
         return Integer.toString(id);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Zona getZona() {
+        return zona;
+    }
+
+    public void setZona(Zona zona) {
+        this.zona = zona;
     }
     
     

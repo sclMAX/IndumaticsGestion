@@ -6,9 +6,9 @@ package indumaticsgestion.data.comun;
  */
 public class Localidad {
 
-    public String localidad;
-    public String provincia;
-    public String pais;
+    private String localidad;
+    private String provincia;
+    private String pais;
 
     public Localidad(String localidad, String provincia, String pais) {
         this.localidad = localidad;

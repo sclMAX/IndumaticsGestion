@@ -14,18 +14,23 @@ import indumaticsgestion.data.comun.Localidad;
 public class LocalidadAM extends javax.swing.JPanel {
 
     public Localidad localidad;
+    dlgSelLocalidad padre;
 
     /**
      * Creates new form LocalidadAM
+     *
      * @param localidad
+     * @param padre
      */
-    public LocalidadAM(Localidad localidad) {
+    public LocalidadAM(Localidad localidad, dlgSelLocalidad padre) {
         initComponents();
+        this.padre =  padre;
         if (localidad != null) {
             this.localidad = localidad;
         } else {
             this.localidad = new Localidad();
         }
+        setData();
     }
 
     /**
@@ -44,8 +49,8 @@ public class LocalidadAM extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         jtPais = new javax.swing.JTextField();
         jToolBar1 = new javax.swing.JToolBar();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnGuardar = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
 
         setOpaque(false);
 
@@ -61,19 +66,31 @@ public class LocalidadAM extends javax.swing.JPanel {
         jToolBar1.setRollover(true);
         jToolBar1.setOpaque(false);
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/indumaticsgestion/recursos/iconos/btn_save_24x24.gif"))); // NOI18N
-        jButton1.setBorder(null);
-        jButton1.setFocusable(false);
-        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(jButton1);
+        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/indumaticsgestion/recursos/iconos/btn_save_24x24.gif"))); // NOI18N
+        btnGuardar.setToolTipText(bundle.getString("save")); // NOI18N
+        btnGuardar.setBorder(null);
+        btnGuardar.setFocusable(false);
+        btnGuardar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnGuardar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnGuardar);
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/indumaticsgestion/recursos/iconos/btn_cancel_24x24.gif"))); // NOI18N
-        jButton2.setBorder(null);
-        jButton2.setFocusable(false);
-        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(jButton2);
+        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/indumaticsgestion/recursos/iconos/btn_cancel_24x24.gif"))); // NOI18N
+        btnCancelar.setToolTipText(bundle.getString("cancel")); // NOI18N
+        btnCancelar.setBorder(null);
+        btnCancelar.setFocusable(false);
+        btnCancelar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnCancelar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnCancelar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -94,9 +111,9 @@ public class LocalidadAM extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
+                .addContainerGap()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jtLocalidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
@@ -106,15 +123,39 @@ public class LocalidadAM extends javax.swing.JPanel {
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jtPais, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        getData();
+        //CODIGO PARA GUARDAR EN DB
+        
+        padre.localidad = localidad;
+        padre.setEnable(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btnGuardarActionPerformed
 
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        this.setVisible(false);
+        padre.setEnable(true);
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void getData() {
+        localidad.setLocalidad(jtLocalidad.getText());
+        localidad.setProvincia(jtProvincia.getText());
+        localidad.setPais(jtPais.getText());
+    }
+    
+    private void setData(){
+        jtLocalidad.setText(localidad.getLocalidad());
+        jtProvincia.setText(localidad.getProvincia());
+        jtPais.setText(localidad.getPais());
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnGuardar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

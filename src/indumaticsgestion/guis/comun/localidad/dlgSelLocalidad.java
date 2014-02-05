@@ -5,7 +5,19 @@
  */
 package indumaticsgestion.guis.comun.localidad;
 
+import com.db4o.ObjectSet;
+import com.db4o.ext.DatabaseClosedException;
+import com.db4o.ext.DatabaseFileLockedException;
+import com.db4o.ext.DatabaseReadOnlyException;
+import com.db4o.ext.Db4oIOException;
+import com.db4o.ext.IncompatibleFileFormatException;
+import com.db4o.ext.OldFormatException;
+import indumaticsgestion.data.comun.Localidad;
+import indumaticsgestion.data.comun.LocalidadProvider;
+import indumaticsgestion.data.comun.Utils;
 import java.awt.BorderLayout;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 /**
  *
@@ -16,16 +28,30 @@ public class dlgSelLocalidad extends java.awt.Dialog {
     public static final int RET_CANCEL = 0;
     public static final int RET_OK = 1;
     public int returnStatus = RET_CANCEL;
+    public Localidad localidad = null;
 
     /**
      * Creates new form dlgBase
      *
      * @param parent
      * @param modal
+     * @param localidad
      */
-    public dlgSelLocalidad(java.awt.Frame parent, boolean modal) {
+    public dlgSelLocalidad(java.awt.Frame parent, boolean modal, Localidad localidad) {
         super(parent, modal);
         initComponents();
+        this.localidad = localidad;
+        this.setLocationRelativeTo(null);
+        setIconImage(Utils.iconToImage(jlLogo.getIcon()));
+        try {
+            cargarTablaLocalidades(LocalidadProvider.getAll());
+        } catch (DatabaseClosedException | DatabaseFileLockedException |
+                DatabaseReadOnlyException | Db4oIOException |
+                IncompatibleFileFormatException | OldFormatException ex) {
+            JOptionPane.showMessageDialog(parent,
+                    "Error en la Base de Datos ERROR:" + ex.getMessage(),
+                    "Error en Base de Datos", JOptionPane.WARNING_MESSAGE);
+        }
     }
 
     /**
@@ -41,7 +67,7 @@ public class dlgSelLocalidad extends java.awt.Dialog {
         jToolBar1 = new javax.swing.JToolBar();
         btnOk = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
-        jToolBar2 = new javax.swing.JToolBar();
+        jtBarraComandos = new javax.swing.JToolBar();
         jSeparator1 = new javax.swing.JToolBar.Separator();
         jtBuscar = new javax.swing.JTextField();
         jSeparator5 = new javax.swing.JToolBar.Separator();
@@ -91,6 +117,11 @@ public class dlgSelLocalidad extends java.awt.Dialog {
         btnCancel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnCancel.setOpaque(false);
         btnCancel.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
         jToolBar1.add(btnCancel);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -116,16 +147,16 @@ public class dlgSelLocalidad extends java.awt.Dialog {
                 .addContainerGap())
         );
 
-        jToolBar2.setFloatable(false);
-        jToolBar2.setRollover(true);
-        jToolBar2.setOpaque(false);
-        jToolBar2.add(jSeparator1);
+        jtBarraComandos.setFloatable(false);
+        jtBarraComandos.setRollover(true);
+        jtBarraComandos.setOpaque(false);
+        jtBarraComandos.add(jSeparator1);
 
         jtBuscar.setMaximumSize(new java.awt.Dimension(200, 2147483647));
         jtBuscar.setMinimumSize(new java.awt.Dimension(150, 20));
         jtBuscar.setPreferredSize(new java.awt.Dimension(150, 20));
-        jToolBar2.add(jtBuscar);
-        jToolBar2.add(jSeparator5);
+        jtBarraComandos.add(jtBuscar);
+        jtBarraComandos.add(jSeparator5);
 
         btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/indumaticsgestion/recursos/iconos/btn_search_24x24.gif"))); // NOI18N
         btnBuscar.setBorder(null);
@@ -133,13 +164,18 @@ public class dlgSelLocalidad extends java.awt.Dialog {
         btnBuscar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnBuscar.setOpaque(false);
         btnBuscar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar2.add(btnBuscar);
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
+        jtBarraComandos.add(btnBuscar);
 
         jPanel2.setMaximumSize(new java.awt.Dimension(100, 32767));
         jPanel2.setOpaque(false);
         jPanel2.setPreferredSize(new java.awt.Dimension(50, 10));
-        jToolBar2.add(jPanel2);
-        jToolBar2.add(jSeparator2);
+        jtBarraComandos.add(jPanel2);
+        jtBarraComandos.add(jSeparator2);
 
         btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/indumaticsgestion/recursos/iconos/btn_add_24x24.gif"))); // NOI18N
         btnAdd.setBorder(null);
@@ -152,8 +188,8 @@ public class dlgSelLocalidad extends java.awt.Dialog {
                 btnAddActionPerformed(evt);
             }
         });
-        jToolBar2.add(btnAdd);
-        jToolBar2.add(jSeparator3);
+        jtBarraComandos.add(btnAdd);
+        jtBarraComandos.add(jSeparator3);
 
         btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/indumaticsgestion/recursos/iconos/btn_edit_24x24.gif"))); // NOI18N
         btnEdit.setBorder(null);
@@ -161,8 +197,13 @@ public class dlgSelLocalidad extends java.awt.Dialog {
         btnEdit.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnEdit.setOpaque(false);
         btnEdit.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar2.add(btnEdit);
-        jToolBar2.add(jSeparator4);
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
+        jtBarraComandos.add(btnEdit);
+        jtBarraComandos.add(jSeparator4);
 
         btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/indumaticsgestion/recursos/iconos/btn_delete_24x24.gif"))); // NOI18N
         btnDelete.setBorder(null);
@@ -170,12 +211,23 @@ public class dlgSelLocalidad extends java.awt.Dialog {
         btnDelete.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnDelete.setOpaque(false);
         btnDelete.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar2.add(btnDelete);
+        jtBarraComandos.add(btnDelete);
 
         jPanel3.setOpaque(false);
-        jToolBar2.add(jPanel3);
+        jtBarraComandos.add(jPanel3);
 
         jpContenido.setOpaque(false);
+
+        javax.swing.GroupLayout jpContenidoLayout = new javax.swing.GroupLayout(jpContenido);
+        jpContenido.setLayout(jpContenidoLayout);
+        jpContenidoLayout.setHorizontalGroup(
+            jpContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 329, Short.MAX_VALUE)
+        );
+        jpContenidoLayout.setVerticalGroup(
+            jpContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 245, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -183,7 +235,7 @@ public class dlgSelLocalidad extends java.awt.Dialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jToolBar2, javax.swing.GroupLayout.DEFAULT_SIZE, 329, Short.MAX_VALUE)
+                    .addComponent(jtBarraComandos, javax.swing.GroupLayout.DEFAULT_SIZE, 329, Short.MAX_VALUE)
                     .addComponent(jpContenido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -192,7 +244,7 @@ public class dlgSelLocalidad extends java.awt.Dialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jtBarraComandos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jpContenido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -209,29 +261,59 @@ public class dlgSelLocalidad extends java.awt.Dialog {
     }//GEN-LAST:event_closeDialog
 
     private void btnOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOkActionPerformed
-        doClose(RET_OK);
+        if (localidad != null) {
+            doClose(RET_OK);
+        } else {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar una Loclaidad!");
+        }
     }//GEN-LAST:event_btnOkActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        LocalidadAM loc = new LocalidadAM(null);
-        loc.setVisible(true);
-        jpContenido.removeAll();
-        jpContenido.setLayout(new BorderLayout());
-        jpContenido.add(loc);
-        jpContenido.validate();
-        
+        cargarContenido(new LocalidadAM(null, this));
+        setEnable(false);
     }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        if (localidad != null) {
+            cargarContenido(new LocalidadAM(localidad, this));
+            setEnable(false);
+        } else {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar una Loclaidad!");
+        }
+    }//GEN-LAST:event_btnEditActionPerformed
+
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        doClose(RET_CANCEL);
+    }//GEN-LAST:event_btnCancelActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        cargarTablaLocalidades(LocalidadProvider.search(jtBuscar.getText()));
+    }//GEN-LAST:event_btnBuscarActionPerformed
     private void doClose(int retStatus) {
         returnStatus = retStatus;
         setVisible(false);
         dispose();
     }
-    public void getData(){
-        
+
+    public void setEnable(boolean b) {
+        btnBuscar.setEnabled(b);
+        jtBuscar.setEditable(b);
+        btnAdd.setEnabled(b);
+        btnEdit.setEnabled(b);
+        btnDelete.setEnabled(b);
+        btnOk.setEnabled(b);
     }
-    
-    public void setData(){
-        
+
+    private void cargarTablaLocalidades(ObjectSet<Localidad> data) {
+        cargarContenido(new LocalidadesLista(this, data));
+    }
+
+    private void cargarContenido(JPanel data) {
+        data.setVisible(true);
+        jpContenido.removeAll();
+        jpContenido.setLayout(new BorderLayout());
+        jpContenido.add(data);
+        jpContenido.validate();
     }
 
     /**
@@ -241,7 +323,7 @@ public class dlgSelLocalidad extends java.awt.Dialog {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                dlgSelLocalidad dialog = new dlgSelLocalidad(new java.awt.Frame(), true);
+                dlgSelLocalidad dialog = new dlgSelLocalidad(new java.awt.Frame(), true, null);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -270,9 +352,9 @@ public class dlgSelLocalidad extends java.awt.Dialog {
     private javax.swing.JToolBar.Separator jSeparator4;
     private javax.swing.JToolBar.Separator jSeparator5;
     private javax.swing.JToolBar jToolBar1;
-    private javax.swing.JToolBar jToolBar2;
     private javax.swing.JLabel jlLogo;
     private javax.swing.JPanel jpContenido;
+    private javax.swing.JToolBar jtBarraComandos;
     private javax.swing.JTextField jtBuscar;
     // End of variables declaration//GEN-END:variables
 }

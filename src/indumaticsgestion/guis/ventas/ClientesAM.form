@@ -431,7 +431,7 @@
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
                   <SubComponents>
-                    <Component class="javax.swing.JButton" name="jButton6">
+                    <Component class="javax.swing.JButton" name="btnSelLocalidad">
                       <Properties>
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                           <Image iconType="3" name="/indumaticsgestion/recursos/iconos/options_24x24.gif"/>
@@ -447,6 +447,9 @@
                         <Property name="opaque" type="boolean" value="false"/>
                         <Property name="verticalTextPosition" type="int" value="3"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSelLocalidadActionPerformed"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>

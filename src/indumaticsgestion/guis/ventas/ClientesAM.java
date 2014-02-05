@@ -8,7 +8,7 @@ package indumaticsgestion.guis.ventas;
 import indumaticsgestion.data.comun.Telefono;
 import indumaticsgestion.data.ventas.Cliente;
 import indumaticsgestion.guis.comun.dlgAMTelefono;
-import java.util.Iterator;
+import indumaticsgestion.guis.comun.localidad.dlgSelLocalidad;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -58,7 +58,7 @@ public class ClientesAM extends javax.swing.JPanel {
         btnTelefonoDelete = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jToolBar3 = new javax.swing.JToolBar();
-        jButton6 = new javax.swing.JButton();
+        btnSelLocalidad = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jtLocalidad = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
@@ -205,14 +205,19 @@ public class ClientesAM extends javax.swing.JPanel {
         jToolBar3.setRollover(true);
         jToolBar3.setOpaque(false);
 
-        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/indumaticsgestion/recursos/iconos/options_24x24.gif"))); // NOI18N
-        jButton6.setToolTipText(bundle.getString("options")); // NOI18N
-        jButton6.setBorder(null);
-        jButton6.setFocusable(false);
-        jButton6.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton6.setOpaque(false);
-        jButton6.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar3.add(jButton6);
+        btnSelLocalidad.setIcon(new javax.swing.ImageIcon(getClass().getResource("/indumaticsgestion/recursos/iconos/options_24x24.gif"))); // NOI18N
+        btnSelLocalidad.setToolTipText(bundle.getString("options")); // NOI18N
+        btnSelLocalidad.setBorder(null);
+        btnSelLocalidad.setFocusable(false);
+        btnSelLocalidad.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnSelLocalidad.setOpaque(false);
+        btnSelLocalidad.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnSelLocalidad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSelLocalidadActionPerformed(evt);
+            }
+        });
+        jToolBar3.add(btnSelLocalidad);
 
         jLabel5.setText(bundle.getString("localidad")); // NOI18N
 
@@ -372,26 +377,33 @@ public class ClientesAM extends javax.swing.JPanel {
                 cliente.updateTelefono(dlg.getTelefono());
                 setTablaTelefonos();
             }
-        }else
-        {
+        } else {
             JOptionPane.showMessageDialog(null, "Debe seleccionar un Telefono!");
         }
     }//GEN-LAST:event_btnTelefonoEditActionPerformed
 
     private void btnTelefonoDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTelefonoDeleteActionPerformed
         if (jtTelefonos.getSelectedRowCount() > 0) {
-            Telefono tel = (Telefono)jtTelefonos.getValueAt(jtTelefonos.getSelectedRow(), 0);
+            Telefono tel = (Telefono) jtTelefonos.getValueAt(jtTelefonos.getSelectedRow(), 0);
             String msg = "Esta seguro que desea borrar el Telefono [" + tel + "]?";
-            int respuesta = JOptionPane.showConfirmDialog(null, msg,"Borrar Telefono...",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
-            if(respuesta == JOptionPane.YES_OPTION){
+            int respuesta = JOptionPane.showConfirmDialog(null, msg, "Borrar Telefono...", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (respuesta == JOptionPane.YES_OPTION) {
                 cliente.removeTelefono(tel);
                 setTablaTelefonos();
             }
-        }else
-        {
+        } else {
             JOptionPane.showMessageDialog(null, "Debe seleccionar un Telefono!");
         }
     }//GEN-LAST:event_btnTelefonoDeleteActionPerformed
+
+    private void btnSelLocalidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelLocalidadActionPerformed
+        dlgSelLocalidad loc = new dlgSelLocalidad(null, true, cliente.getLocalidad());
+        loc.setVisible(true);
+        if (loc.returnStatus == dlgSelLocalidad.RET_OK) {
+            cliente.setLocalidad(loc.localidad);
+            setData();
+        }
+    }//GEN-LAST:event_btnSelLocalidadActionPerformed
 
     private void setTablaTelefonos() {
         DefaultTableModel dtm = (DefaultTableModel) jtTelefonos.getModel();
@@ -407,13 +419,23 @@ public class ClientesAM extends javax.swing.JPanel {
         jtTelefonos.setModel(dtm);
     }
 
+    private void getData() {
+
+    }
+
+    private void setData() {
+        jtLocalidad.setText(cliente.getLocalidad().getLocalidad());
+        jtProvincia.setText(cliente.getLocalidad().getProvincia());
+        jtPais.setText(cliente.getLocalidad().getPais());
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnSelLocalidad;
     private javax.swing.JButton btnTelefonoAdd;
     private javax.swing.JButton btnTelefonoDelete;
     private javax.swing.JButton btnTelefonoEdit;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
