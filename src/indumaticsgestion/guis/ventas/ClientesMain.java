@@ -6,8 +6,10 @@
 
 package indumaticsgestion.guis.ventas;
 
+import indumaticsgestion.data.ventas.Cliente;
 import indumaticsgestion.guis.comun.VentanaContenido;
 import indumaticsgestion.guis.principal.VentanaPrincipal;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -15,7 +17,7 @@ import javax.swing.JPanel;
  * @author Maxi
  */
 public class ClientesMain extends VentanaContenido {
-
+    Cliente cliente = null;
     public ClientesMain(VentanaPrincipal base, JPanel padre) {
         super(base, padre);
          initComponents();
@@ -101,6 +103,11 @@ public class ClientesMain extends VentanaContenido {
         jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton3.setOpaque(false);
         jButton3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jButton3);
         jToolBar1.add(jSeparator3);
 
@@ -143,18 +150,30 @@ public class ClientesMain extends VentanaContenido {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        ClientesAM clienteAM = new ClientesAM();
-        clienteAM.setVisible(true);
-        jpClientesContenido.removeAll();
-        jpClientesContenido.setLayout(new java.awt.BorderLayout() );
-        jpClientesContenido.add(clienteAM);
-        jpClientesContenido.validate();
+        ClientesAM clienteAM = new ClientesAM(null);
+        cargarContenido(clienteAM);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         goBack();
     }//GEN-LAST:event_btnBackActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        if(cliente != null){
+        ClientesAM clienteAM = new ClientesAM(cliente);
+        cargarContenido(clienteAM);
+        }else{
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un Cliente!");
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void cargarContenido(JPanel contenido){
+        contenido.setVisible(true);
+        jpClientesContenido.removeAll();
+        jpClientesContenido.setLayout(new java.awt.BorderLayout() );
+        jpClientesContenido.add(contenido);
+        jpClientesContenido.validate();
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;

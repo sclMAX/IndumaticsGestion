@@ -43,7 +43,7 @@ public class dlgSelLocalidad extends java.awt.Dialog {
         this.localidad = localidad;
         this.setLocationRelativeTo(null);
         setIconImage(Utils.iconToImage(jlLogo.getIcon()));
-        try {
+    /**    try {
             cargarTablaLocalidades(LocalidadProvider.getAll());
         } catch (DatabaseClosedException | DatabaseFileLockedException |
                 DatabaseReadOnlyException | Db4oIOException |
@@ -52,6 +52,7 @@ public class dlgSelLocalidad extends java.awt.Dialog {
                     "Error en la Base de Datos ERROR:" + ex.getMessage(),
                     "Error en Base de Datos", JOptionPane.WARNING_MESSAGE);
         }
+        */
     }
 
     /**

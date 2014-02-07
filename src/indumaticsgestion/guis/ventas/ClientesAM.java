@@ -7,6 +7,7 @@ package indumaticsgestion.guis.ventas;
 
 import indumaticsgestion.data.comun.Telefono;
 import indumaticsgestion.data.ventas.Cliente;
+import indumaticsgestion.data.ventas.ClienteProvider;
 import indumaticsgestion.guis.comun.dlgAMTelefono;
 import indumaticsgestion.guis.comun.localidad.dlgSelLocalidad;
 import javax.swing.JOptionPane;
@@ -18,13 +19,25 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ClientesAM extends javax.swing.JPanel {
 
-    Cliente cliente = new Cliente();
+    Cliente cliente;
+    final static int stINSERT = 1;
+    final static int stEDIT = 2;
+    int state = stINSERT;
 
     /**
      * Creates new form ClientesAM
+     *
+     * @param cliente
      */
-    public ClientesAM() {
+    public ClientesAM(Cliente cliente) {
         initComponents();
+        if (cliente != null) {
+            this.cliente = cliente;
+            this.state = stEDIT;
+        } else {
+            this.cliente = new Cliente();
+            this.state = stINSERT;
+        }
     }
 
     /**
@@ -38,9 +51,9 @@ public class ClientesAM extends javax.swing.JPanel {
 
         jToolBar1 = new javax.swing.JToolBar();
         jSeparator2 = new javax.swing.JToolBar.Separator();
-        jButton1 = new javax.swing.JButton();
+        btnSave = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JToolBar.Separator();
-        jButton2 = new javax.swing.JButton();
+        btnCancel = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -77,25 +90,30 @@ public class ClientesAM extends javax.swing.JPanel {
         jToolBar1.setRollover(true);
         jToolBar1.add(jSeparator2);
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/indumaticsgestion/recursos/iconos/btn_save_32x32.gif"))); // NOI18N
+        btnSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/indumaticsgestion/recursos/iconos/btn_save_32x32.gif"))); // NOI18N
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("indumaticsgestion/recursos/strings"); // NOI18N
-        jButton1.setToolTipText(bundle.getString("save")); // NOI18N
-        jButton1.setBorder(null);
-        jButton1.setFocusable(false);
-        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton1.setOpaque(false);
-        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(jButton1);
+        btnSave.setToolTipText(bundle.getString("save")); // NOI18N
+        btnSave.setBorder(null);
+        btnSave.setFocusable(false);
+        btnSave.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnSave.setOpaque(false);
+        btnSave.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnSave);
         jToolBar1.add(jSeparator1);
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/indumaticsgestion/recursos/iconos/btn_cancel_32x32.gif"))); // NOI18N
-        jButton2.setToolTipText(bundle.getString("cancel")); // NOI18N
-        jButton2.setBorder(null);
-        jButton2.setFocusable(false);
-        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton2.setOpaque(false);
-        jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(jButton2);
+        btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/indumaticsgestion/recursos/iconos/btn_cancel_32x32.gif"))); // NOI18N
+        btnCancel.setToolTipText(bundle.getString("cancel")); // NOI18N
+        btnCancel.setBorder(null);
+        btnCancel.setFocusable(false);
+        btnCancel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnCancel.setOpaque(false);
+        btnCancel.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(btnCancel);
 
         jPanel1.setOpaque(false);
 
@@ -405,6 +423,20 @@ public class ClientesAM extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnSelLocalidadActionPerformed
 
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        getData();
+        if (state == stINSERT) {
+            int newId;
+            newId = ClienteProvider.add(cliente);
+            if (newId > -1) {
+                JOptionPane.showMessageDialog(null, "Cliente guardado con el ID: " + newId);
+            }
+        } else if (state == stEDIT) {
+            ClienteProvider.update(cliente);
+        }
+        this.setVisible(false);
+    }//GEN-LAST:event_btnSaveActionPerformed
+
     private void setTablaTelefonos() {
         DefaultTableModel dtm = (DefaultTableModel) jtTelefonos.getModel();
         dtm.setRowCount(0);
@@ -420,22 +452,28 @@ public class ClientesAM extends javax.swing.JPanel {
     }
 
     private void getData() {
-
+        cliente.setNombre(jtNombre.getText());
+        cliente.setDireccion(jtDireccion.getText());
+        cliente.setCp(jtCp.getText());
     }
 
     private void setData() {
+        jtId.setText(Integer.toString(cliente.getId()));
+        jtNombre.setText(cliente.getNombre());
+        jtDireccion.setText(cliente.getDireccion());
+        jtCp.setText(cliente.getCp());
         jtLocalidad.setText(cliente.getLocalidad().getLocalidad());
         jtProvincia.setText(cliente.getLocalidad().getProvincia());
         jtPais.setText(cliente.getLocalidad().getPais());
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnSave;
     private javax.swing.JButton btnSelLocalidad;
     private javax.swing.JButton btnTelefonoAdd;
     private javax.swing.JButton btnTelefonoDelete;
     private javax.swing.JButton btnTelefonoEdit;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

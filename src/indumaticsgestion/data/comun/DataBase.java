@@ -23,7 +23,7 @@ public class DataBase {
             throws DatabaseFileLockedException, DatabaseReadOnlyException,
             Db4oIOException, IncompatibleFileFormatException, OldFormatException 
     {
-        ObjectContainer db = Db4oEmbedded.openFile("indumatics.db4o");
+        ObjectContainer db = Db4oEmbedded.openFile("C:\\indumatics.db4o");
         return db;
     }
 
