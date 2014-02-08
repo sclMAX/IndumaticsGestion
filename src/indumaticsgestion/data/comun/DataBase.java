@@ -7,6 +7,7 @@ package indumaticsgestion.data.comun;
 
 import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
+import com.db4o.cs.Db4oClientServer;
 import com.db4o.ext.DatabaseFileLockedException;
 import com.db4o.ext.DatabaseReadOnlyException;
 import com.db4o.ext.Db4oIOException;
@@ -21,9 +22,8 @@ public class DataBase {
 
     public static ObjectContainer getDB()
             throws DatabaseFileLockedException, DatabaseReadOnlyException,
-            Db4oIOException, IncompatibleFileFormatException, OldFormatException 
-    {
-        ObjectContainer db = Db4oEmbedded.openFile("C:\\indumatics.db4o");
+            Db4oIOException, IncompatibleFileFormatException, OldFormatException {
+        ObjectContainer db = Db4oClientServer.openClient(Db4oClientServer.newClientConfiguration(),"localhost", 8080, "root", "root");
         return db;
     }
 
