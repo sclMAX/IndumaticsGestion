@@ -5,7 +5,11 @@
  */
 package indumaticsgestion.guis.ventas;
 
+import com.db4o.ObjectContainer;
+import com.db4o.ext.DatabaseClosedException;
+import com.db4o.ext.DatabaseReadOnlyException;
 import indumaticsgestion.data.comun.Telefono;
+import indumaticsgestion.data.comun.Utils;
 import indumaticsgestion.data.ventas.Cliente;
 import indumaticsgestion.data.ventas.ClienteProvider;
 import indumaticsgestion.guis.comun.dlgAMTelefono;
@@ -23,14 +27,18 @@ public class ClientesAM extends javax.swing.JPanel {
     final static int stINSERT = 1;
     final static int stEDIT = 2;
     int state = stINSERT;
+    private final ObjectContainer db;
+    private final ClienteProvider provider;
 
     /**
      * Creates new form ClientesAM
      *
      * @param cliente
+     * @param db
      */
-    public ClientesAM(Cliente cliente) {
+    public ClientesAM(Cliente cliente, ObjectContainer db) {
         initComponents();
+        this.db = db;
         if (cliente != null) {
             this.cliente = cliente;
             this.state = stEDIT;
@@ -38,6 +46,7 @@ public class ClientesAM extends javax.swing.JPanel {
             this.cliente = new Cliente();
             this.state = stINSERT;
         }
+        this.provider = new ClienteProvider(db);
     }
 
     /**
@@ -415,7 +424,7 @@ public class ClientesAM extends javax.swing.JPanel {
     }//GEN-LAST:event_btnTelefonoDeleteActionPerformed
 
     private void btnSelLocalidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelLocalidadActionPerformed
-        dlgSelLocalidad loc = new dlgSelLocalidad(null, true, cliente.getLocalidad());
+        dlgSelLocalidad loc = new dlgSelLocalidad(null, true, cliente.getLocalidad(), db);
         loc.setVisible(true);
         if (loc.returnStatus == dlgSelLocalidad.RET_OK) {
             cliente.setLocalidad(loc.localidad);
@@ -425,16 +434,16 @@ public class ClientesAM extends javax.swing.JPanel {
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         getData();
-        if (state == stINSERT) {
-            int newId;
-            newId = ClienteProvider.add(cliente);
-            if (newId > -1) {
-                JOptionPane.showMessageDialog(null, "Cliente guardado con el ID: " + newId);
+        try {
+            if (state == stINSERT) {
+                provider.add(cliente);
+            } else if (state == stEDIT) {
+                provider.update(cliente);
             }
-        } else if (state == stEDIT) {
-            ClienteProvider.update(cliente);
+            this.setVisible(false);
+        } catch (DatabaseClosedException | DatabaseReadOnlyException ex) {
+            Utils.errorMsg("Error al Guardar...", "Base de Datos Cerrada o de Solo Lectura!\nERROR:" + ex.getMessage());
         }
-        this.setVisible(false);
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void setTablaTelefonos() {
@@ -462,6 +471,10 @@ public class ClientesAM extends javax.swing.JPanel {
         jtNombre.setText(cliente.getNombre());
         jtDireccion.setText(cliente.getDireccion());
         jtCp.setText(cliente.getCp());
+        setDataLocalidad();
+    }
+
+    private void setDataLocalidad() {
         jtLocalidad.setText(cliente.getLocalidad().getLocalidad());
         jtProvincia.setText(cliente.getLocalidad().getProvincia());
         jtPais.setText(cliente.getLocalidad().getPais());

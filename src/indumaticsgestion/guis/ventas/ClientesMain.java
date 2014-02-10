@@ -6,6 +6,7 @@
 
 package indumaticsgestion.guis.ventas;
 
+import com.db4o.ObjectContainer;
 import indumaticsgestion.data.ventas.Cliente;
 import indumaticsgestion.guis.comun.VentanaContenido;
 import indumaticsgestion.guis.principal.VentanaPrincipal;
@@ -18,8 +19,10 @@ import javax.swing.JPanel;
  */
 public class ClientesMain extends VentanaContenido {
     Cliente cliente = null;
-    public ClientesMain(VentanaPrincipal base, JPanel padre) {
+    private final ObjectContainer db;
+    public ClientesMain(VentanaPrincipal base, JPanel padre, ObjectContainer db) {
         super(base, padre);
+        this.db = db;
          initComponents();
     }
 
@@ -37,13 +40,13 @@ public class ClientesMain extends VentanaContenido {
         jSeparator1 = new javax.swing.JToolBar.Separator();
         jtBuscar = new javax.swing.JTextField();
         jSeparator2 = new javax.swing.JToolBar.Separator();
-        jButton5 = new javax.swing.JButton();
+        btnBuscar = new javax.swing.JButton();
         jSeparator5 = new javax.swing.JToolBar.Separator();
-        jButton2 = new javax.swing.JButton();
+        btnNuevo = new javax.swing.JButton();
         jSeparator4 = new javax.swing.JToolBar.Separator();
-        jButton3 = new javax.swing.JButton();
+        btnEditar = new javax.swing.JButton();
         jSeparator3 = new javax.swing.JToolBar.Separator();
-        jButton4 = new javax.swing.JButton();
+        btnBorrar = new javax.swing.JButton();
         jpClientesContenido = new javax.swing.JPanel();
 
         setOpaque(false);
@@ -74,51 +77,51 @@ public class ClientesMain extends VentanaContenido {
         jToolBar1.add(jtBuscar);
         jToolBar1.add(jSeparator2);
 
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/indumaticsgestion/recursos/iconos/btn_search_32x32.gif"))); // NOI18N
-        jButton5.setBorder(null);
-        jButton5.setFocusable(false);
-        jButton5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton5.setOpaque(false);
-        jButton5.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(jButton5);
+        btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/indumaticsgestion/recursos/iconos/btn_search_32x32.gif"))); // NOI18N
+        btnBuscar.setBorder(null);
+        btnBuscar.setFocusable(false);
+        btnBuscar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnBuscar.setOpaque(false);
+        btnBuscar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(btnBuscar);
         jToolBar1.add(jSeparator5);
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/indumaticsgestion/recursos/iconos/btn_add_32x32.gif"))); // NOI18N
-        jButton2.setBorder(null);
-        jButton2.setFocusable(false);
-        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton2.setOpaque(false);
-        jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/indumaticsgestion/recursos/iconos/btn_add_32x32.gif"))); // NOI18N
+        btnNuevo.setBorder(null);
+        btnNuevo.setFocusable(false);
+        btnNuevo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnNuevo.setOpaque(false);
+        btnNuevo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnNuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnNuevoActionPerformed(evt);
             }
         });
-        jToolBar1.add(jButton2);
+        jToolBar1.add(btnNuevo);
         jToolBar1.add(jSeparator4);
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/indumaticsgestion/recursos/iconos/btn_edit_32x32.gif"))); // NOI18N
-        jButton3.setBorder(null);
-        jButton3.setFocusable(false);
-        jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton3.setOpaque(false);
-        jButton3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/indumaticsgestion/recursos/iconos/btn_edit_32x32.gif"))); // NOI18N
+        btnEditar.setBorder(null);
+        btnEditar.setFocusable(false);
+        btnEditar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnEditar.setOpaque(false);
+        btnEditar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btnEditarActionPerformed(evt);
             }
         });
-        jToolBar1.add(jButton3);
+        jToolBar1.add(btnEditar);
         jToolBar1.add(jSeparator3);
 
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/indumaticsgestion/recursos/iconos/btn_delete_32x32.gif"))); // NOI18N
-        jButton4.setToolTipText("");
-        jButton4.setBorder(null);
-        jButton4.setFocusable(false);
-        jButton4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton4.setOpaque(false);
-        jButton4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(jButton4);
+        btnBorrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/indumaticsgestion/recursos/iconos/btn_delete_32x32.gif"))); // NOI18N
+        btnBorrar.setToolTipText("");
+        btnBorrar.setBorder(null);
+        btnBorrar.setFocusable(false);
+        btnBorrar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnBorrar.setOpaque(false);
+        btnBorrar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(btnBorrar);
 
         jpClientesContenido.setOpaque(false);
 
@@ -149,23 +152,23 @@ public class ClientesMain extends VentanaContenido {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        ClientesAM clienteAM = new ClientesAM(null);
+    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
+        ClientesAM clienteAM = new ClientesAM(null,db);
         cargarContenido(clienteAM);
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         goBack();
     }//GEN-LAST:event_btnBackActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         if(cliente != null){
-        ClientesAM clienteAM = new ClientesAM(cliente);
+        ClientesAM clienteAM = new ClientesAM(cliente,db);
         cargarContenido(clienteAM);
         }else{
             JOptionPane.showMessageDialog(null, "Debe seleccionar un Cliente!");
         }
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_btnEditarActionPerformed
 
     private void cargarContenido(JPanel contenido){
         contenido.setVisible(true);
@@ -177,10 +180,10 @@ public class ClientesMain extends VentanaContenido {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
+    private javax.swing.JButton btnBorrar;
+    private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnEditar;
+    private javax.swing.JButton btnNuevo;
     private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JToolBar.Separator jSeparator2;
     private javax.swing.JToolBar.Separator jSeparator3;

@@ -6,6 +6,7 @@
 
 package indumaticsgestion.guis.ventas;
 
+import com.db4o.ObjectContainer;
 import indumaticsgestion.guis.comun.VentanaContenido;
 import indumaticsgestion.guis.principal.VentanaPrincipal;
 import javax.swing.JPanel;
@@ -16,9 +17,10 @@ import javax.swing.JPanel;
  * @author Maxi
  */
 public class VentasMain extends VentanaContenido {
-
-    public VentasMain(VentanaPrincipal base, JPanel padre) {
+    private final ObjectContainer db;
+    public VentasMain(VentanaPrincipal base, JPanel padre, ObjectContainer db) {
         super(base, padre);
+        this.db = db;
          initComponents();
     }
 
@@ -63,7 +65,7 @@ public class VentasMain extends VentanaContenido {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        setPanel( new ClientesMain(base, this));  
+        setPanel( new ClientesMain(base, this,db));  
     }//GEN-LAST:event_jButton1ActionPerformed
 
 

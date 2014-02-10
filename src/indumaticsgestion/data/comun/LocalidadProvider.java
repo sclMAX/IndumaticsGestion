@@ -1,5 +1,6 @@
 package indumaticsgestion.data.comun;
 
+import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.ext.DatabaseClosedException;
 import com.db4o.ext.DatabaseFileLockedException;
@@ -13,30 +14,43 @@ import com.db4o.query.Query;
  *
  * @author Maxi
  */
-public class LocalidadProvider {
+public class LocalidadProvider extends Provider {
 
-    public static ObjectSet<Localidad> getAll()
-            throws DatabaseClosedException, DatabaseFileLockedException, DatabaseReadOnlyException,
-            Db4oIOException, IncompatibleFileFormatException, OldFormatException {
-         ObjectSet<Localidad> result = DataBase.getDB().queryByExample(Localidad.class);
-        DataBase.getDB().close();
-        return result;
+    /**
+     *
+     * @param db
+     */
+    public LocalidadProvider(ObjectContainer db) {
+        super(db);
     }
 
-    public static ObjectSet<Localidad> search(String consulta)
+    /**
+     *
+     * @param consulta
+     * @return
+     * @throws DatabaseClosedException
+     * @throws DatabaseFileLockedException
+     * @throws DatabaseReadOnlyException
+     * @throws Db4oIOException
+     * @throws IncompatibleFileFormatException
+     * @throws OldFormatException
+     */
+    public ObjectSet<Localidad> search(String consulta)
             throws DatabaseClosedException, DatabaseFileLockedException,
             DatabaseReadOnlyException, Db4oIOException,
             IncompatibleFileFormatException, OldFormatException {
 
-        final Query query = DataBase.getDB().query();
+        final Query query;
+        query = this.getDb().query();
         query.constrain(Localidad.class);
         query.descend("localidad").constrain(consulta).like()
                 .or(query.descend("provincia").constrain(consulta).like())
                 .or(query.descend("pais").constrain(consulta).like());
+         return query.execute();
+    }
 
-        ObjectSet<Localidad> result = query.execute();
-        DataBase.getDB().close();
-        return result;
+    public ObjectSet<Localidad> getAll() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

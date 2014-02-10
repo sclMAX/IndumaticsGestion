@@ -3,10 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package indumaticsgestion.guis.principal;
 
+import com.db4o.ObjectContainer;
+import com.db4o.ext.DatabaseFileLockedException;
+import com.db4o.ext.DatabaseReadOnlyException;
+import com.db4o.ext.Db4oIOException;
+import com.db4o.ext.IncompatibleFileFormatException;
+import com.db4o.ext.OldFormatException;
+import indumaticsgestion.data.comun.DataBase;
+import indumaticsgestion.data.comun.Host;
 import indumaticsgestion.data.comun.Utils;
+import indumaticsgestion.guis.comun.dlgLogin;
 import indumaticsgestion.guis.ventas.VentasMain;
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
@@ -17,18 +25,23 @@ import javax.swing.JPanel;
  */
 public class VentanaPrincipal extends javax.swing.JFrame {
 
+    private ObjectContainer db = null;
+
     /**
      * Creates new form VentanaPrincipal
+     *
+     * @param db
      */
-    public VentanaPrincipal() {
-        
+    public VentanaPrincipal(ObjectContainer db) {
+        this.db = db;
         initComponents();
+        this.db = db;
         this.setExtendedState(MAXIMIZED_BOTH);
         this.setLocationRelativeTo(null);
         setIconImage(Utils.iconToImage(jlLogo.getIcon()));
     }
-    
-    public  void setPanel(JPanel contenido){
+
+    public void setPanel(JPanel contenido) {
         contenido.setVisible(true);
         jpContenido.removeAll();
         jpContenido.validate();
@@ -195,11 +208,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       this.dispose();
+        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVentasActionPerformed
-        setPanel(new VentasMain(this,jpContenido));                     
+        setPanel(new VentasMain(this, jpContenido, db));
     }//GEN-LAST:event_btnVentasActionPerformed
 
     /**
@@ -231,8 +244,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
-                new VentanaPrincipal().setVisible(true);
+                new VentanaPrincipal(null).setVisible(true);
             }
         });
     }

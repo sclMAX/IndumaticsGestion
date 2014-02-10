@@ -5,6 +5,7 @@
  */
 package indumaticsgestion.guis.comun.localidad;
 
+import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.ext.DatabaseClosedException;
 import com.db4o.ext.DatabaseFileLockedException;
@@ -29,6 +30,8 @@ public class dlgSelLocalidad extends java.awt.Dialog {
     public static final int RET_OK = 1;
     public int returnStatus = RET_CANCEL;
     public Localidad localidad = null;
+    private final ObjectContainer db;
+    private final LocalidadProvider provider;
 
     /**
      * Creates new form dlgBase
@@ -36,23 +39,25 @@ public class dlgSelLocalidad extends java.awt.Dialog {
      * @param parent
      * @param modal
      * @param localidad
+     * @param db
      */
-    public dlgSelLocalidad(java.awt.Frame parent, boolean modal, Localidad localidad) {
+    public dlgSelLocalidad(java.awt.Frame parent, boolean modal, Localidad localidad, ObjectContainer db) {
         super(parent, modal);
         initComponents();
         this.localidad = localidad;
+        this.db = db;
         this.setLocationRelativeTo(null);
         setIconImage(Utils.iconToImage(jlLogo.getIcon()));
-    /**    try {
-            cargarTablaLocalidades(LocalidadProvider.getAll());
+        this.provider = new LocalidadProvider(db);
+        try {
+            cargarTablaLocalidades(provider.getAll());
         } catch (DatabaseClosedException | DatabaseFileLockedException |
                 DatabaseReadOnlyException | Db4oIOException |
                 IncompatibleFileFormatException | OldFormatException ex) {
-            JOptionPane.showMessageDialog(parent,
+            JOptionPane.showMessageDialog(null,
                     "Error en la Base de Datos ERROR:" + ex.getMessage(),
                     "Error en Base de Datos", JOptionPane.WARNING_MESSAGE);
         }
-        */
     }
 
     /**
@@ -288,7 +293,7 @@ public class dlgSelLocalidad extends java.awt.Dialog {
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        cargarTablaLocalidades(LocalidadProvider.search(jtBuscar.getText()));
+        cargarTablaLocalidades(provider.search(jtBuscar.getText()));
     }//GEN-LAST:event_btnBuscarActionPerformed
     private void doClose(int retStatus) {
         returnStatus = retStatus;
@@ -324,7 +329,7 @@ public class dlgSelLocalidad extends java.awt.Dialog {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                dlgSelLocalidad dialog = new dlgSelLocalidad(new java.awt.Frame(), true, null);
+                dlgSelLocalidad dialog = new dlgSelLocalidad(new java.awt.Frame(), true, null, null);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
