@@ -8,21 +8,15 @@ package indumaticsgestion.servidor.guis;
 import java.awt.AWTException;
 import java.awt.CheckboxMenuItem;
 import java.awt.Image;
-import java.awt.Menu;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
-import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 /**
@@ -102,6 +96,7 @@ public class ServidorTry {
             public void actionPerformed(ActionEvent e) {
                 trayIcon.setImage(trayIconOn.getImage());
                 trayIcon.setToolTip("INDUMATICS Server ON");
+                trayIcon.displayMessage("INDUMATICS Server", "Servidor en linea!", TrayIcon.MessageType.INFO);
             }
         });
 
@@ -110,8 +105,8 @@ public class ServidorTry {
             public void actionPerformed(ActionEvent e) {
                 trayIcon.setImage(trayIconOff.getImage());
                 trayIcon.setToolTip("INDUMATICS Server OFF");
-            }
-        });
+                trayIcon.displayMessage("INDUMATICS Server", "Servidor Desconectado!", TrayIcon.MessageType.WARNING);
+            }        });
 
         menuExit.addActionListener(new ActionListener() {
             @Override
