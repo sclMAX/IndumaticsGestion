@@ -2,6 +2,8 @@ package indumaticsgestion.data.ventas;
 
 import com.db4o.config.annotations.Indexed;
 import indumaticsgestion.data.comun.Persona;
+import indumaticsgestion.data.comun.annotations.SearchLike;
+
 
 /**
  *
@@ -10,6 +12,7 @@ import indumaticsgestion.data.comun.Persona;
 public class Cliente extends Persona{
     @Indexed
     private int id;
+    @SearchLike
     private Zona zona;   
 
     public Cliente() {

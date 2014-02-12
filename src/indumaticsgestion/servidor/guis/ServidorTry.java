@@ -6,7 +6,6 @@
 package indumaticsgestion.servidor.guis;
 
 import java.awt.AWTException;
-import java.awt.CheckboxMenuItem;
 import java.awt.Image;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
@@ -44,9 +43,9 @@ public class ServidorTry {
             return;
         }
         final PopupMenu popup = new PopupMenu();
-        final TrayIcon trayIcon = new TrayIcon(createImage("/indumaticsgestion/recursos/iconos/logoServidor_on_48x48.gif", "INDUMATICS Server ON"));
-         final TrayIcon trayIconOn = new TrayIcon(createImage("/indumaticsgestion/recursos/iconos/logoServidor_on_48x48.gif", "INDUMATICS Server ON"));
-        final TrayIcon trayIconOff = new TrayIcon(createImage("/indumaticsgestion/recursos/iconos/logoServidor_off_48x48.gif", "INDUMATICS Server OFF"));
+        final TrayIcon trayIcon = new TrayIcon(createImage("/indumaticsgestion/recursos/iconos/logoServidor_on_16x16.gif", "INDUMATICS Server ON"));
+         final TrayIcon trayIconOn = new TrayIcon(createImage("/indumaticsgestion/recursos/iconos/logoServidor_on_16x16.gif", "INDUMATICS Server ON"));
+        final TrayIcon trayIconOff = new TrayIcon(createImage("/indumaticsgestion/recursos/iconos/logoServidor_off_16x16.gif", "INDUMATICS Server OFF"));
         final SystemTray tray = SystemTray.getSystemTray();
 
         // Create a popup menu components

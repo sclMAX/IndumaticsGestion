@@ -27,6 +27,7 @@ public class IndumaticsGestion {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        
         dlgLogin login = new dlgLogin(null, true);
         login.setVisible(true);
         if (login.returnStatus == dlgLogin.RET_OK) {
