@@ -6,11 +6,14 @@ package indumaticsgestion.data.comun;
  */
 public class Usuario {
     private String user;
-    private char[] password;
+    private String password;
 
     public Usuario(String user, char[] password) {
         this.user = user;
-        this.password = password;
+        this.password = new String(password);
+    }
+
+    public Usuario() {
     }
 
     
@@ -24,11 +27,11 @@ public class Usuario {
     }
 
     public String getPassword() {
-        return password.toString();
+        return this.password;
     }
 
     public void setPassword(char[] password) {
-        this.password = password;
+        this.password = new String(password);
     }
 
     @Override

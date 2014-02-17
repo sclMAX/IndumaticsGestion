@@ -11,8 +11,8 @@ public class dlgAMTelefono extends java.awt.Dialog {
 
     public static final int RET_CANCEL = 0;
     public static final int RET_OK = 1;
-    private Telefono telefono = null;
     public int returnStatus = RET_CANCEL;
+    private Telefono telefono = null;
 
     /**
      * Creates new form dlgAMTelefono

@@ -1,15 +1,8 @@
 package indumaticsgestion.servidor.clases;
 
 import com.db4o.ObjectServer;
-import com.db4o.ObjectSet;
-import com.db4o.constraints.UniqueFieldValueConstraint;
 import com.db4o.cs.Db4oClientServer;
 import com.db4o.cs.config.ServerConfiguration;
-import com.db4o.ext.DatabaseFileLockedException;
-import com.db4o.ext.DatabaseReadOnlyException;
-import com.db4o.ext.Db4oIOException;
-import com.db4o.ext.IncompatibleFileFormatException;
-import com.db4o.ext.OldFormatException;
 import indumaticsgestion.data.comun.Usuario;
 
 /**
@@ -18,26 +11,21 @@ import indumaticsgestion.data.comun.Usuario;
  */
 public class Servidor {
 
-    private final ObjectSet<Usuario> users;
-    private final String db;
+    private final ServerConfig config;
     private ObjectServer server = null;
-    private final int port;
     private boolean runing = false;
 
     public boolean isRuning() {
         return runing;
     }
 
-    public Servidor(String db, int port, ObjectSet<Usuario> users) throws DatabaseFileLockedException, DatabaseReadOnlyException, Db4oIOException, IncompatibleFileFormatException, OldFormatException {
-        this.db = db;
-        this.port = port;
-        this.users = users;
+    public Servidor(ServerConfig config){
+        this.config = config;
     }
 
     public Boolean starServer() throws Exception {
-        server = Db4oClientServer.openServer(getServerConfiguration(), db, port);
-        while (users.hasNext()) {
-            Usuario user = users.next();
+        server = Db4oClientServer.openServer(getServerConfiguration(), config.getDbpath(), config.getPort());
+        for (Usuario user : config.getUsers()) {
             server.grantAccess(user.getUser(), user.getPassword());
         }
         runing = server != null;
@@ -46,8 +34,7 @@ public class Servidor {
 
     private ServerConfiguration getServerConfiguration() {
         ServerConfiguration sc = Db4oClientServer.newServerConfiguration();
-        sc.common().add(new UniqueFieldValueConstraint(sc, db));
-
+        //AQUI la configuracion de los Objetos
         return sc;
     }
 
