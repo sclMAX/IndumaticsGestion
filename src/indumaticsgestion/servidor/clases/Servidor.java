@@ -11,7 +11,7 @@ import indumaticsgestion.data.comun.Usuario;
  */
 public class Servidor {
 
-    private final ServerConfig config;
+    private  ServerConfig config;
     private ObjectServer server = null;
     private boolean runing = false;
 
@@ -43,5 +43,8 @@ public class Servidor {
             server.close();
             runing = false;
         }
+    }
+    public void setConfig(ServerConfig config){
+        this.config = config;
     }
 }

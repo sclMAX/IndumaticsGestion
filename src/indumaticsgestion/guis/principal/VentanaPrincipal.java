@@ -67,6 +67,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jToolBar2 = new javax.swing.JToolBar();
         btnVentas = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         jpContenido = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -125,6 +126,14 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         });
         jToolBar2.add(btnVentas);
+
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/indumaticsgestion/recursos/iconos/setting_48x48.gif"))); // NOI18N
+        jButton2.setBorder(null);
+        jButton2.setFocusable(false);
+        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton2.setOpaque(false);
+        jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar2.add(jButton2);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -254,6 +263,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnVentas;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

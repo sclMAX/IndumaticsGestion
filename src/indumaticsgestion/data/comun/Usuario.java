@@ -1,10 +1,13 @@
 package indumaticsgestion.data.comun;
 
+import com.db4o.config.annotations.Indexed;
+
 /**
  *
  * @author Maxi
  */
 public class Usuario {
+    @Indexed
     private String user;
     private String password;
 

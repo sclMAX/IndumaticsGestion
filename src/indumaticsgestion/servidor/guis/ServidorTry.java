@@ -5,6 +5,8 @@
  */
 package indumaticsgestion.servidor.guis;
 
+import com.db4o.constraints.UniqueFieldValueConstraintViolationException;
+import indumaticsgestion.data.comun.Utils;
 import indumaticsgestion.servidor.clases.ServerConfig;
 import indumaticsgestion.servidor.clases.ServerConfigProvider;
 import indumaticsgestion.servidor.clases.Servidor;
@@ -20,6 +22,7 @@ import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 /**
@@ -50,7 +53,7 @@ public class ServidorTry {
             try {
                 server.starServer();
             } catch (Exception ex) {
-                Logger.getLogger(ServidorTry.class.getName()).log(Level.SEVERE, null, ex);
+                Utils.errorMsg("Error al iniciar el Servidor", "Error:"+ex.getMessage());
             }
         }
         if (!SystemTray.isSupported()) {
@@ -112,7 +115,13 @@ public class ServidorTry {
                 servidorgui.setVisible(true);
                 if (servidorgui.returnStatus == ServidorMain.RET_OK) {
                     config = servidorgui.getConfig();
-                    provider.save(config);
+                    try{
+                        provider.save(config);
+                    }catch(UniqueFieldValueConstraintViolationException ex){
+                        Utils.errorMsg("Error al guardar...", "Nombre de usuario Existente!");
+                        config = provider.getConfig();
+                        server.setConfig(config);
+                    }
                     if(server!=null){
                         server.stopServer();
                         server = new Servidor(config);
