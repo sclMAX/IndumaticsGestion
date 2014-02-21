@@ -6,15 +6,10 @@
 package indumaticsgestion.guis.principal;
 
 import com.db4o.ObjectContainer;
-import com.db4o.ext.DatabaseFileLockedException;
-import com.db4o.ext.DatabaseReadOnlyException;
-import com.db4o.ext.Db4oIOException;
-import com.db4o.ext.IncompatibleFileFormatException;
-import com.db4o.ext.OldFormatException;
 import indumaticsgestion.data.comun.DataBase;
-import indumaticsgestion.data.comun.Host;
+import indumaticsgestion.data.comun.Usuario;
 import indumaticsgestion.data.comun.Utils;
-import indumaticsgestion.guis.comun.dlgLogin;
+import indumaticsgestion.guis.comun.Configuraciones;
 import indumaticsgestion.guis.ventas.VentasMain;
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
@@ -25,14 +20,15 @@ import javax.swing.JPanel;
  */
 public class VentanaPrincipal extends javax.swing.JFrame {
 
-    private ObjectContainer db = null;
+    private DataBase db = null;
 
     /**
      * Creates new form VentanaPrincipal
      *
      * @param db
+     * @param user
      */
-    public VentanaPrincipal(ObjectContainer db) {
+    public VentanaPrincipal(DataBase db) {
         this.db = db;
         initComponents();
         this.db = db;
@@ -67,7 +63,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jToolBar2 = new javax.swing.JToolBar();
         btnVentas = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnConfig = new javax.swing.JButton();
         jpContenido = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -78,8 +74,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanel3.setBackground(new java.awt.Color(102, 153, 255));
         jPanel3.setForeground(new java.awt.Color(51, 153, 255));
 
+        jPanel1.setBackground(new java.awt.Color(0, 102, 255));
         jPanel1.setMinimumSize(new java.awt.Dimension(70, 70));
-        jPanel1.setOpaque(false);
 
         jlLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jlLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/indumaticsgestion/recursos/iconos/logo.gif"))); // NOI18N
@@ -127,13 +123,18 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         });
         jToolBar2.add(btnVentas);
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/indumaticsgestion/recursos/iconos/setting_48x48.gif"))); // NOI18N
-        jButton2.setBorder(null);
-        jButton2.setFocusable(false);
-        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton2.setOpaque(false);
-        jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar2.add(jButton2);
+        btnConfig.setIcon(new javax.swing.ImageIcon(getClass().getResource("/indumaticsgestion/recursos/iconos/setting_48x48.gif"))); // NOI18N
+        btnConfig.setBorder(null);
+        btnConfig.setFocusable(false);
+        btnConfig.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnConfig.setOpaque(false);
+        btnConfig.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnConfig.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConfigActionPerformed(evt);
+            }
+        });
+        jToolBar2.add(btnConfig);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -224,6 +225,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         setPanel(new VentasMain(this, jpContenido, db));
     }//GEN-LAST:event_btnVentasActionPerformed
 
+    private void btnConfigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfigActionPerformed
+       setPanel(new Configuraciones(this, jpContenido));
+    }//GEN-LAST:event_btnConfigActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -261,9 +266,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnConfig;
     private javax.swing.JButton btnVentas;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

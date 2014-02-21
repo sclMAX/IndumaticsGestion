@@ -13,7 +13,6 @@ import com.db4o.ext.Db4oIOException;
 import com.db4o.ext.IncompatibleFileFormatException;
 import com.db4o.ext.InvalidPasswordException;
 import com.db4o.ext.OldFormatException;
-import indumaticsgestion.data.comun.Host;
 
 /**
  *
