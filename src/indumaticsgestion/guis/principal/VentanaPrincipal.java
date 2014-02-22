@@ -26,7 +26,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
      * Creates new form VentanaPrincipal
      *
      * @param db
-     * @param user
      */
     public VentanaPrincipal(DataBase db) {
         this.db = db;

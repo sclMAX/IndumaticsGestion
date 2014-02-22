@@ -3,25 +3,26 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package indumaticsgestion.guis.ventas;
 
 import com.db4o.ObjectContainer;
+import indumaticsgestion.data.comun.DataBase;
 import indumaticsgestion.guis.comun.VentanaContenido;
 import indumaticsgestion.guis.principal.VentanaPrincipal;
 import javax.swing.JPanel;
-
 
 /**
  *
  * @author Maxi
  */
 public class VentasMain extends VentanaContenido {
-    private final ObjectContainer db;
-    public VentasMain(VentanaPrincipal base, JPanel padre, ObjectContainer db) {
+
+    private DataBase db;
+
+    public VentasMain(VentanaPrincipal base, JPanel padre, DataBase db) {
         super(base, padre);
         this.db = db;
-         initComponents();
+        initComponents();
     }
 
     /**
@@ -65,7 +66,7 @@ public class VentasMain extends VentanaContenido {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        setPanel( new ClientesMain(base, this,db));  
+        setPanel(new ClientesMain(base, this, db));
     }//GEN-LAST:event_jButton1ActionPerformed
 
 
