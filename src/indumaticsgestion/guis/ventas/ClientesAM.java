@@ -424,7 +424,7 @@ public class ClientesAM extends javax.swing.JPanel {
     }//GEN-LAST:event_btnTelefonoDeleteActionPerformed
 
     private void btnSelLocalidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelLocalidadActionPerformed
-        dlgSelLocalidad loc = new dlgSelLocalidad(null, true, cliente.getLocalidad(), db);
+        dlgSelLocalidad loc = new dlgSelLocalidad(null, true, cliente.getLocalidad(), null);
         loc.setVisible(true);
         if (loc.returnStatus == dlgSelLocalidad.RET_OK) {
             cliente.setLocalidad(loc.localidad);
@@ -438,7 +438,7 @@ public class ClientesAM extends javax.swing.JPanel {
             if (state == stINSERT) {
                 provider.add(cliente);
             } else if (state == stEDIT) {
-                provider.update(cliente);
+  //              provider.update(cliente);
             }
             this.setVisible(false);
         } catch (DatabaseClosedException | DatabaseReadOnlyException ex) {
