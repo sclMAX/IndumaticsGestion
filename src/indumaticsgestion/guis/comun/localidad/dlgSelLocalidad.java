@@ -48,9 +48,9 @@ public class dlgSelLocalidad extends java.awt.Dialog {
         this.db = db;
         this.setLocationRelativeTo(null);
         setIconImage(Utils.iconToImage(jlLogo.getIcon()));
-        this.provider = new LocalidadProvider(db);
+        this.provider = new LocalidadProvider(null);
         try {
-            cargarTablaLocalidades(provider.getAll());
+  //          cargarTablaLocalidades(provider.getAll());
         } catch (DatabaseClosedException | DatabaseFileLockedException |
                 DatabaseReadOnlyException | Db4oIOException |
                 IncompatibleFileFormatException | OldFormatException ex) {
@@ -293,7 +293,7 @@ public class dlgSelLocalidad extends java.awt.Dialog {
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        cargarTablaLocalidades(provider.search(jtBuscar.getText()));
+       // cargarTablaLocalidades(provider.search(jtBuscar.getText()));
     }//GEN-LAST:event_btnBuscarActionPerformed
     private void doClose(int retStatus) {
         returnStatus = retStatus;
