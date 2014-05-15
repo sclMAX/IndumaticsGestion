@@ -5,9 +5,9 @@
  */
 package indumaticsgestion.guis.ventas;
 
-import com.db4o.ObjectContainer;
 import com.db4o.ext.DatabaseClosedException;
 import com.db4o.ext.DatabaseReadOnlyException;
+import indumaticsgestion.data.comun.DataBase;
 import indumaticsgestion.data.comun.Telefono;
 import indumaticsgestion.data.comun.Utils;
 import indumaticsgestion.data.ventas.Cliente;
@@ -27,7 +27,7 @@ public class ClientesAM extends javax.swing.JPanel {
     final static int stINSERT = 1;
     final static int stEDIT = 2;
     int state = stINSERT;
-    private final ObjectContainer db;
+    private final DataBase db;
     private final ClienteProvider provider;
 
     /**
@@ -36,7 +36,7 @@ public class ClientesAM extends javax.swing.JPanel {
      * @param cliente
      * @param db
      */
-    public ClientesAM(Cliente cliente, ObjectContainer db) {
+    public ClientesAM(Cliente cliente, DataBase db) {
         initComponents();
         this.db = db;
         if (cliente != null) {
@@ -424,7 +424,7 @@ public class ClientesAM extends javax.swing.JPanel {
     }//GEN-LAST:event_btnTelefonoDeleteActionPerformed
 
     private void btnSelLocalidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelLocalidadActionPerformed
-        dlgSelLocalidad loc = new dlgSelLocalidad(null, true, cliente.getLocalidad(), db);
+        dlgSelLocalidad loc = new dlgSelLocalidad(null, true, cliente.getLocalidad(), null);
         loc.setVisible(true);
         if (loc.returnStatus == dlgSelLocalidad.RET_OK) {
             cliente.setLocalidad(loc.localidad);
@@ -438,7 +438,7 @@ public class ClientesAM extends javax.swing.JPanel {
             if (state == stINSERT) {
                 provider.add(cliente);
             } else if (state == stEDIT) {
-                provider.update(cliente);
+  //              provider.update(cliente);
             }
             this.setVisible(false);
         } catch (DatabaseClosedException | DatabaseReadOnlyException ex) {

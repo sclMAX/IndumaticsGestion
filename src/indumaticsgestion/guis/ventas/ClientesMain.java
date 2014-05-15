@@ -3,10 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package indumaticsgestion.guis.ventas;
 
-import com.db4o.ObjectContainer;
+import indumaticsgestion.data.comun.DataBase;
 import indumaticsgestion.data.ventas.Cliente;
 import indumaticsgestion.guis.comun.VentanaContenido;
 import indumaticsgestion.guis.principal.VentanaPrincipal;
@@ -18,12 +17,14 @@ import javax.swing.JPanel;
  * @author Maxi
  */
 public class ClientesMain extends VentanaContenido {
+
     Cliente cliente = null;
-    private final ObjectContainer db;
-    public ClientesMain(VentanaPrincipal base, JPanel padre, ObjectContainer db) {
+    private DataBase db;
+
+    public ClientesMain(VentanaPrincipal base, JPanel padre, DataBase db) {
         super(base, padre);
         this.db = db;
-         initComponents();
+        initComponents();
     }
 
     /**
@@ -153,7 +154,7 @@ public class ClientesMain extends VentanaContenido {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
-        ClientesAM clienteAM = new ClientesAM(null,db);
+        ClientesAM clienteAM = new ClientesAM(null, db);
         cargarContenido(clienteAM);
     }//GEN-LAST:event_btnNuevoActionPerformed
 
@@ -162,18 +163,18 @@ public class ClientesMain extends VentanaContenido {
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        if(cliente != null){
-        ClientesAM clienteAM = new ClientesAM(cliente,db);
-        cargarContenido(clienteAM);
-        }else{
+        if (cliente != null) {
+            ClientesAM clienteAM = new ClientesAM(cliente, db);
+            cargarContenido(clienteAM);
+        } else {
             JOptionPane.showMessageDialog(null, "Debe seleccionar un Cliente!");
         }
     }//GEN-LAST:event_btnEditarActionPerformed
 
-    private void cargarContenido(JPanel contenido){
+    private void cargarContenido(JPanel contenido) {
         contenido.setVisible(true);
         jpClientesContenido.removeAll();
-        jpClientesContenido.setLayout(new java.awt.BorderLayout() );
+        jpClientesContenido.setLayout(new java.awt.BorderLayout());
         jpClientesContenido.add(contenido);
         jpClientesContenido.validate();
     }

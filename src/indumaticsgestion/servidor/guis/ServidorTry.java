@@ -5,6 +5,11 @@
  */
 package indumaticsgestion.servidor.guis;
 
+import com.db4o.constraints.UniqueFieldValueConstraintViolationException;
+import indumaticsgestion.data.comun.Utils;
+import indumaticsgestion.servidor.clases.ServerConfig;
+import indumaticsgestion.servidor.clases.ServerConfigProvider;
+import indumaticsgestion.servidor.clases.Servidor;
 import java.awt.AWTException;
 import java.awt.Image;
 import java.awt.MenuItem;
@@ -14,8 +19,10 @@ import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
-import static javax.swing.JFrame.EXIT_ON_CLOSE;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 /**
@@ -23,6 +30,9 @@ import javax.swing.SwingUtilities;
  * @author Maxi
  */
 public class ServidorTry {
+
+    public static ServerConfig config;
+    public static Servidor server = null;
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
@@ -33,19 +43,29 @@ public class ServidorTry {
         });
     }
 
-    private static void createAndShowGUI() {
+    private static void createAndShowGUI()  {
         //Check the SystemTray support
+        final ServerConfigProvider provider = new ServerConfigProvider();
+
+        config = provider.getConfig();
+        if (config != null) {
+            server = new Servidor(config);
+            try {
+                server.starServer();
+            } catch (Exception ex) {
+                Utils.errorMsg("Error al iniciar el Servidor", "Error:"+ex.getMessage());
+            }
+        }
         if (!SystemTray.isSupported()) {
-            ServidorMain servidorgui = new ServidorMain();
+            ServidorMain servidorgui;
+            servidorgui = new ServidorMain(null, true, config);
             servidorgui.setLocationRelativeTo(null);
-            servidorgui.setDefaultCloseOperation(EXIT_ON_CLOSE);
             servidorgui.setVisible(true);
             return;
         }
         final PopupMenu popup = new PopupMenu();
         final TrayIcon trayIcon = new TrayIcon(createImage("/indumaticsgestion/recursos/iconos/logoServidor_on_16x16.gif", "INDUMATICS Server ON"));
-         final TrayIcon trayIconOn = new TrayIcon(createImage("/indumaticsgestion/recursos/iconos/logoServidor_on_16x16.gif", "INDUMATICS Server ON"));
-        final TrayIcon trayIconOff = new TrayIcon(createImage("/indumaticsgestion/recursos/iconos/logoServidor_off_16x16.gif", "INDUMATICS Server OFF"));
+
         final SystemTray tray = SystemTray.getSystemTray();
 
         // Create a popup menu components
@@ -69,6 +89,7 @@ public class ServidorTry {
             tray.add(trayIcon);
             trayIcon.setImageAutoSize(true);
             trayIcon.setToolTip("INDUMATICS Server");
+            setTrayIconEstado((server != null && server.isRuning()), trayIcon);
         } catch (AWTException e) {
             System.out.println("TrayIcon could not be added.");
             return;
@@ -77,35 +98,64 @@ public class ServidorTry {
         trayIcon.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //CORRER SERVIDOR
+                if (server != null && server.isRuning()) {
+                    setTrayIconEstado(true, trayIcon);
+                } else {
+                    setTrayIconEstado(false, trayIcon);
+                }
             }
         });
 
         menuAbrir.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ServidorMain servidorgui = new ServidorMain();
+                config = provider.getConfig();
+                ServidorMain servidorgui = new ServidorMain(null, true, config);
                 servidorgui.setLocationRelativeTo(null);
-                servidorgui.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
                 servidorgui.setVisible(true);
+                if (servidorgui.returnStatus == ServidorMain.RET_OK) {
+                    config = servidorgui.getConfig();
+                    try{
+                        provider.save(config);
+                    }catch(UniqueFieldValueConstraintViolationException ex){
+                        Utils.errorMsg("Error al guardar...", "Nombre de usuario Existente!");
+                        config = provider.getConfig();
+                        server.setConfig(config);
+                    }
+                    if(server!=null){
+                        server.stopServer();
+                        server = new Servidor(config);
+                        try {
+                            setTrayIconEstado(server.starServer(), trayIcon);
+                        } catch (Exception ex) {
+                            Logger.getLogger(ServidorTry.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                }
             }
         });
         menuStart.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                trayIcon.setImage(trayIconOn.getImage());
-                trayIcon.setToolTip("INDUMATICS Server ON");
-                trayIcon.displayMessage("INDUMATICS Server", "Servidor en linea!", TrayIcon.MessageType.INFO);
+                if (server != null) {
+                    try {
+                        setTrayIconEstado(server.starServer(), trayIcon);
+                    } catch (Exception ex) {
+                        Logger.getLogger(ServidorTry.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
             }
         });
 
         menuStop.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                trayIcon.setImage(trayIconOff.getImage());
-                trayIcon.setToolTip("INDUMATICS Server OFF");
-                trayIcon.displayMessage("INDUMATICS Server", "Servidor Desconectado!", TrayIcon.MessageType.WARNING);
-            }        });
+                if (server != null) {
+                    server.stopServer();
+                }
+                setTrayIconEstado(false, trayIcon);
+            }
+        });
 
         menuExit.addActionListener(new ActionListener() {
             @Override
@@ -114,6 +164,27 @@ public class ServidorTry {
                 System.exit(0);
             }
         });
+        if (config == null) {
+            ServidorMain sm = new ServidorMain(null, true, config);
+            sm.setVisible(true);
+            if (sm.returnStatus == ServidorMain.RET_OK) {
+                config = sm.getConfig();
+            }
+        }
+    }
+
+    protected static void setTrayIconEstado(boolean state, TrayIcon trayIcon) {
+        if (state) {
+            final TrayIcon trayIconOn = new TrayIcon(createImage("/indumaticsgestion/recursos/iconos/logoServidor_on_16x16.gif", "INDUMATICS Server ON"));
+            trayIcon.setImage(trayIconOn.getImage());
+            trayIcon.setToolTip("INDUMATICS Server ON");
+            trayIcon.displayMessage("INDUMATICS Server", "Servidor en linea!", TrayIcon.MessageType.INFO);
+        } else {
+            final TrayIcon trayIconOff = new TrayIcon(createImage("/indumaticsgestion/recursos/iconos/logoServidor_off_16x16.gif", "INDUMATICS Server OFF"));
+            trayIcon.setImage(trayIconOff.getImage());
+            trayIcon.setToolTip("INDUMATICS Server OFF");
+            trayIcon.displayMessage("INDUMATICS Server", "Servidor Desconectado!", TrayIcon.MessageType.WARNING);
+        }
     }
 
     //Obtain the image URL
@@ -127,5 +198,4 @@ public class ServidorTry {
             return (new ImageIcon(imageURL, description)).getImage();
         }
     }
-
 }
