@@ -8,7 +8,8 @@ package indumaticsgestion.servidor.guis;
 import indumaticsgestion.data.comun.Usuario;
 import indumaticsgestion.data.comun.Utils;
 import indumaticsgestion.servidor.clases.ServerConfig;
-import javax.swing.JFileChooser;
+import indumaticsgestion.servidor.clases.ServerConfigProvider;
+import java.awt.FileDialog;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -17,7 +18,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ServidorMain extends java.awt.Dialog {
 
-    private final ServerConfig serverconfig;
+    private static ServerConfig serverconfig = ServerConfigProvider.getInstance();
     public static final int RET_CANCEL = 0;
     public static final int RET_OK = 1;
     public int returnStatus = RET_CANCEL;
@@ -26,20 +27,12 @@ public class ServidorMain extends java.awt.Dialog {
      *
      * @param parent
      * @param modal
-     * @param serverconfig
      */
-    public ServidorMain(java.awt.Frame parent, boolean modal, ServerConfig serverconfig) {
+    public ServidorMain(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(null);
         setIconImage(Utils.iconToImage(jlLogo.getIcon()));
-        if (serverconfig != null) {
-            this.serverconfig = serverconfig;
-            setData();
-
-        } else {
-            this.serverconfig = new ServerConfig();
-        }
     }
 
     public ServerConfig getConfig() {
@@ -67,8 +60,9 @@ public class ServidorMain extends java.awt.Dialog {
         DefaultTableModel dtm = (DefaultTableModel) jtUsuarios.getModel();
         dtm.setRowCount(0);
         for (Usuario user : serverconfig.getUsers()) {
-            Object[] obj = new Object[1];
+            Object[] obj = new Object[2];
             obj[0] = user;
+            obj[1] = user.isIsAdministrador();
             dtm.addRow(obj);
         }
         jtUsuarios.setModel(dtm);
@@ -203,12 +197,19 @@ public class ServidorMain extends java.awt.Dialog {
 
             },
             new String [] {
-                "Usuario"
+                "Usuario", "Administrador"
             }
         ) {
-            boolean[] canEdit = new boolean [] {
-                false
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Boolean.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -385,6 +386,7 @@ public class ServidorMain extends java.awt.Dialog {
 
     private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
         getData();
+        ServerConfigProvider.setConfig(serverconfig);
         doClose(RET_OK);
     }//GEN-LAST:event_btnOKActionPerformed
 
@@ -427,9 +429,10 @@ public class ServidorMain extends java.awt.Dialog {
     }//GEN-LAST:event_formWindowClosed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-       int result = dlgOpenFile.showOpenDialog(this);
-       if(result == JFileChooser.APPROVE_OPTION){
-           jtDBPath.setText(dlgOpenFile.getSelectedFile().getPath());
+       FileDialog dlg = new FileDialog(this);
+       dlg.setVisible(true);
+       if(dlg.getFile()!= null){
+           jtDBPath.setText(dlg.getDirectory() + dlg.getFile());
        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -464,7 +467,7 @@ public class ServidorMain extends java.awt.Dialog {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                ServidorMain dialog = new ServidorMain(new java.awt.Frame(), true, null);
+                ServidorMain dialog = new ServidorMain(new java.awt.Frame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

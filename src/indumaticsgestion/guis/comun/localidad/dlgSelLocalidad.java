@@ -48,7 +48,7 @@ public class dlgSelLocalidad extends java.awt.Dialog {
         this.db = db;
         this.setLocationRelativeTo(null);
         setIconImage(Utils.iconToImage(jlLogo.getIcon()));
-        this.provider = new LocalidadProvider(null);
+        this.provider = new LocalidadProvider();
         try {
   //          cargarTablaLocalidades(provider.getAll());
         } catch (DatabaseClosedException | DatabaseFileLockedException |

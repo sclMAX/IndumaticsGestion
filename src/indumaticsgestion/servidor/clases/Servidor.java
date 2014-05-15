@@ -11,25 +11,30 @@ import indumaticsgestion.data.comun.Usuario;
  */
 public class Servidor {
 
-    private  ServerConfig config;
-    private ObjectServer server = null;
-    private boolean runing = false;
+    private static Servidor instance = null;
+    private static  ServerConfig config = ServerConfigProvider.getInstance();
+    private static ObjectServer server = null;
 
-    public boolean isRuning() {
-        return runing;
-    }
+    private Servidor(){ }
+    
+    private synchronized static void createInstance() {
+		if (instance == null) {
+			instance = new Servidor();
+			instance.starServer();
+		}
+	}
 
-    public Servidor(ServerConfig config){
-        this.config = config;
-    }
-
-    public Boolean starServer() throws Exception {
+    public void starServer(){
         server = Db4oClientServer.openServer(getServerConfiguration(), config.getDbpath(), config.getPort());
         for (Usuario user : config.getUsers()) {
             server.grantAccess(user.getUser(), user.getPassword());
         }
-        runing = server != null;
-        return isRuning();
+    }
+    public static ObjectServer getInstance(){
+        if(instance == null){
+            createInstance();
+        }
+        return server;
     }
 
     private ServerConfiguration getServerConfiguration() {
@@ -38,11 +43,11 @@ public class Servidor {
         return sc;
     }
 
-    public void stopServer() {
+    public static  void stopServer() {
         if (server != null) {
             server.close();
-            runing = false;
         }
+        ServerConfigProvider.desconectar();
     }
     public void setConfig(ServerConfig config){
         this.config = config;

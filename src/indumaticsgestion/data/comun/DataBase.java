@@ -14,38 +14,66 @@ import com.db4o.ext.IncompatibleFileFormatException;
 import com.db4o.ext.InvalidPasswordException;
 import com.db4o.ext.OldFormatException;
 
-/**
- *
- * @author Maxi
- */
 public class DataBase {
-    private final Usuario user;
-    private final Host host;
+
+    private static DataBase instance = null;
+    private static Usuario user = null;
+    private static ClientConfig clientConfig = ClientConfigProvider.getInstance();
+    private static ObjectContainer db = null;
 
     /**
      *
      * @param user
      * @param host
      */
-    public DataBase(Usuario user, Host host) {
-        this.user = user;
-        this.host = host;
+    private DataBase() {
     }
 
-    /**
-     *
-     * @return
-     * @throws DatabaseFileLockedException
-     * @throws DatabaseReadOnlyException
-     * @throws Db4oIOException
-     * @throws IncompatibleFileFormatException
-     * @throws OldFormatException
-     */
-    public  ObjectContainer getDB()
-            throws DatabaseFileLockedException, DatabaseReadOnlyException,
-            Db4oIOException, IncompatibleFileFormatException, OldFormatException,InvalidPasswordException {
-        ObjectContainer db = Db4oClientServer.openClient(Db4oClientServer.newClientConfiguration(),
-                host.getHost(), host.getPort(),user.getUser(), user.getPassword());
+    private static synchronized void createInstance() throws InvalidPasswordException,
+            Db4oIOException, DatabaseFileLockedException, DatabaseReadOnlyException,
+            IncompatibleFileFormatException, OldFormatException{
+        if (instance == null) {
+            instance = new DataBase();
+            instance.conectar(user);
+        }
+    }
+
+    public void conectar(Usuario user) throws InvalidPasswordException,
+            Db4oIOException, DatabaseFileLockedException, DatabaseReadOnlyException,
+            IncompatibleFileFormatException, OldFormatException{
+        if (db != null) {
+            desconectar();
+            clientConfig = ClientConfigProvider.getInstance();
+        }
+        db = Db4oClientServer.openClient(Db4oClientServer.newClientConfiguration(),
+                clientConfig.getHost().getHost(), clientConfig.getHost().getPort(),
+                user.getUser(), user.getPassword());
+    }
+
+    public static void desconectar() {
+        if (db != null) {
+            db.close();
+            ClientConfigProvider.deconectar();
+            instance = null;
+        }
+    }
+
+    public static ObjectContainer getInstance(Usuario user) throws InvalidPasswordException,
+            Db4oIOException, DatabaseFileLockedException, DatabaseReadOnlyException,
+            IncompatibleFileFormatException, OldFormatException{
+        if (instance == null) {
+            instance.user = user;
+            createInstance();
+        }
+        return db;
+    }
+
+    public static ObjectContainer getInstance() throws InvalidPasswordException,
+            Db4oIOException, DatabaseFileLockedException, DatabaseReadOnlyException,
+            IncompatibleFileFormatException, OldFormatException {
+        if (instance == null) {
+            createInstance();
+        }
         return db;
     }
 

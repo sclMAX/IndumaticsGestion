@@ -35,8 +35,8 @@ public class IndumaticsGestion {
         login.setVisible(true);
         if (login.returnStatus == dlgLogin.RET_OK) {
             try {
-                DataBase db = new DataBase(login.getUser(), host);
-                new VentanaPrincipal(db).setVisible(true);
+                DataBase.getInstance(login.getUser());
+                new VentanaPrincipal().setVisible(true);
                 return;
             } catch (Db4oIOException | DatabaseFileLockedException | DatabaseReadOnlyException ex) {
                 Utils.errorMsg("Error en Base de Datos...", "Archivo Bloqueado!\nERROR:" + ex.getMessage());

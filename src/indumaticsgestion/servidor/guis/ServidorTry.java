@@ -5,10 +5,7 @@
  */
 package indumaticsgestion.servidor.guis;
 
-import com.db4o.constraints.UniqueFieldValueConstraintViolationException;
-import indumaticsgestion.data.comun.Utils;
-import indumaticsgestion.servidor.clases.ServerConfig;
-import indumaticsgestion.servidor.clases.ServerConfigProvider;
+import com.db4o.ObjectServer;
 import indumaticsgestion.servidor.clases.Servidor;
 import java.awt.AWTException;
 import java.awt.Image;
@@ -19,10 +16,7 @@ import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 /**
@@ -31,8 +25,7 @@ import javax.swing.SwingUtilities;
  */
 public class ServidorTry {
 
-    public static ServerConfig config;
-    public static Servidor server = null;
+    public static ObjectServer server = Servidor.getInstance();
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
@@ -45,20 +38,9 @@ public class ServidorTry {
 
     private static void createAndShowGUI()  {
         //Check the SystemTray support
-        final ServerConfigProvider provider = new ServerConfigProvider();
-
-        config = provider.getConfig();
-        if (config != null) {
-            server = new Servidor(config);
-            try {
-                server.starServer();
-            } catch (Exception ex) {
-                Utils.errorMsg("Error al iniciar el Servidor", "Error:"+ex.getMessage());
-            }
-        }
         if (!SystemTray.isSupported()) {
             ServidorMain servidorgui;
-            servidorgui = new ServidorMain(null, true, config);
+            servidorgui = new ServidorMain(null, true);
             servidorgui.setLocationRelativeTo(null);
             servidorgui.setVisible(true);
             return;
@@ -70,16 +52,10 @@ public class ServidorTry {
 
         // Create a popup menu components
         MenuItem menuAbrir = new MenuItem("Opciones");
-        MenuItem menuStart = new MenuItem("Iniciar");
-        MenuItem menuStop = new MenuItem("Parar");
         MenuItem menuExit = new MenuItem("Cerrar");
 
         //Add components to popup menu
         popup.add(menuAbrir);
-        popup.add(menuStart);
-        popup.addSeparator();
-        popup.add(menuStart);
-        popup.add(menuStop);
         popup.addSeparator();
         popup.add(menuExit);
 
@@ -89,7 +65,7 @@ public class ServidorTry {
             tray.add(trayIcon);
             trayIcon.setImageAutoSize(true);
             trayIcon.setToolTip("INDUMATICS Server");
-            setTrayIconEstado((server != null && server.isRuning()), trayIcon);
+            setTrayIconEstado(server != null, trayIcon);
         } catch (AWTException e) {
             System.out.println("TrayIcon could not be added.");
             return;
@@ -98,7 +74,7 @@ public class ServidorTry {
         trayIcon.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (server != null && server.isRuning()) {
+                if (server != null) {
                     setTrayIconEstado(true, trayIcon);
                 } else {
                     setTrayIconEstado(false, trayIcon);
@@ -109,68 +85,20 @@ public class ServidorTry {
         menuAbrir.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                config = provider.getConfig();
-                ServidorMain servidorgui = new ServidorMain(null, true, config);
+                ServidorMain servidorgui = new ServidorMain(null, true);
                 servidorgui.setLocationRelativeTo(null);
                 servidorgui.setVisible(true);
-                if (servidorgui.returnStatus == ServidorMain.RET_OK) {
-                    config = servidorgui.getConfig();
-                    try{
-                        provider.save(config);
-                    }catch(UniqueFieldValueConstraintViolationException ex){
-                        Utils.errorMsg("Error al guardar...", "Nombre de usuario Existente!");
-                        config = provider.getConfig();
-                        server.setConfig(config);
-                    }
-                    if(server!=null){
-                        server.stopServer();
-                        server = new Servidor(config);
-                        try {
-                            setTrayIconEstado(server.starServer(), trayIcon);
-                        } catch (Exception ex) {
-                            Logger.getLogger(ServidorTry.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                }
             }
         });
-        menuStart.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (server != null) {
-                    try {
-                        setTrayIconEstado(server.starServer(), trayIcon);
-                    } catch (Exception ex) {
-                        Logger.getLogger(ServidorTry.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-            }
-        });
-
-        menuStop.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (server != null) {
-                    server.stopServer();
-                }
-                setTrayIconEstado(false, trayIcon);
-            }
-        });
-
+        
         menuExit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                Servidor.stopServer();
                 tray.remove(trayIcon);
                 System.exit(0);
             }
         });
-        if (config == null) {
-            ServidorMain sm = new ServidorMain(null, true, config);
-            sm.setVisible(true);
-            if (sm.returnStatus == ServidorMain.RET_OK) {
-                config = sm.getConfig();
-            }
-        }
     }
 
     protected static void setTrayIconEstado(boolean state, TrayIcon trayIcon) {

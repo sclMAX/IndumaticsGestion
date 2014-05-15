@@ -9,7 +9,6 @@ import java.util.Set;
  * @author Maxi
  */
 public class ServerConfig {
-
     private String dbpath;
     private int port;
     private Set<Usuario> users = new HashSet<>();
