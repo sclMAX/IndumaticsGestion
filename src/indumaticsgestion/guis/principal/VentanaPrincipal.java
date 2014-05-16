@@ -5,11 +5,9 @@
  */
 package indumaticsgestion.guis.principal;
 
-import com.db4o.ObjectContainer;
-import indumaticsgestion.data.comun.DataBase;
-import indumaticsgestion.data.comun.Usuario;
 import indumaticsgestion.data.comun.Utils;
 import indumaticsgestion.guis.comun.Configuraciones;
+import indumaticsgestion.guis.produccion.ProduccionMain;
 import indumaticsgestion.guis.ventas.VentasMain;
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
@@ -20,17 +18,8 @@ import javax.swing.JPanel;
  */
 public class VentanaPrincipal extends javax.swing.JFrame {
 
-    private DataBase db = null;
-
-    /**
-     * Creates new form VentanaPrincipal
-     *
-     * @param db
-     */
-    public VentanaPrincipal(DataBase db) {
-        this.db = db;
+    public VentanaPrincipal() {
         initComponents();
-        this.db = db;
         this.setExtendedState(MAXIMIZED_BOTH);
         this.setLocationRelativeTo(null);
         setIconImage(Utils.iconToImage(jlLogo.getIcon()));
@@ -62,6 +51,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jToolBar2 = new javax.swing.JToolBar();
         btnVentas = new javax.swing.JButton();
+        btnProduccion = new javax.swing.JButton();
         btnConfig = new javax.swing.JButton();
         jpContenido = new javax.swing.JPanel();
 
@@ -121,6 +111,19 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         });
         jToolBar2.add(btnVentas);
+
+        btnProduccion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/indumaticsgestion/recursos/iconos/produccion_48x48.gif"))); // NOI18N
+        btnProduccion.setBorder(null);
+        btnProduccion.setFocusable(false);
+        btnProduccion.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnProduccion.setOpaque(false);
+        btnProduccion.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnProduccion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProduccionActionPerformed(evt);
+            }
+        });
+        jToolBar2.add(btnProduccion);
 
         btnConfig.setIcon(new javax.swing.ImageIcon(getClass().getResource("/indumaticsgestion/recursos/iconos/setting_48x48.gif"))); // NOI18N
         btnConfig.setBorder(null);
@@ -221,12 +224,16 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVentasActionPerformed
-        setPanel(new VentasMain(this, jpContenido, db));
+        setPanel(new VentasMain(this, jpContenido));
     }//GEN-LAST:event_btnVentasActionPerformed
 
     private void btnConfigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfigActionPerformed
-       setPanel(new Configuraciones(this, jpContenido));
+        setPanel(new Configuraciones(this, jpContenido));
     }//GEN-LAST:event_btnConfigActionPerformed
+
+    private void btnProduccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProduccionActionPerformed
+        setPanel(new ProduccionMain(this, jpContenido));
+    }//GEN-LAST:event_btnProduccionActionPerformed
 
     /**
      * @param args the command line arguments
@@ -259,13 +266,14 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new VentanaPrincipal(null).setVisible(true);
+                new VentanaPrincipal().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnConfig;
+    private javax.swing.JButton btnProduccion;
     private javax.swing.JButton btnVentas;
     private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;

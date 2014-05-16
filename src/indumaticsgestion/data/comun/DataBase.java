@@ -7,45 +7,68 @@ package indumaticsgestion.data.comun;
 
 import com.db4o.ObjectContainer;
 import com.db4o.cs.Db4oClientServer;
+import com.db4o.cs.config.ClientConfiguration;
 import com.db4o.ext.DatabaseFileLockedException;
 import com.db4o.ext.DatabaseReadOnlyException;
 import com.db4o.ext.Db4oIOException;
 import com.db4o.ext.IncompatibleFileFormatException;
 import com.db4o.ext.InvalidPasswordException;
 import com.db4o.ext.OldFormatException;
+import indumaticsgestion.guis.comun.dlgLogin;
 
-/**
- *
- * @author Maxi
- */
 public class DataBase {
-    private final Usuario user;
-    private final Host host;
+
+    private static DataBase instance = null;
+    private static Usuario user = null;
+    private static final ClientConfig clientConfig = ClientConfigProvider.getInstance();
+    private static ObjectContainer db = null;
 
     /**
      *
      * @param user
      * @param host
      */
-    public DataBase(Usuario user, Host host) {
-        this.user = user;
-        this.host = host;
+    private DataBase() {
     }
 
-    /**
-     *
-     * @return
-     * @throws DatabaseFileLockedException
-     * @throws DatabaseReadOnlyException
-     * @throws Db4oIOException
-     * @throws IncompatibleFileFormatException
-     * @throws OldFormatException
-     */
-    public  ObjectContainer getDB()
-            throws DatabaseFileLockedException, DatabaseReadOnlyException,
-            Db4oIOException, IncompatibleFileFormatException, OldFormatException,InvalidPasswordException {
-        ObjectContainer db = Db4oClientServer.openClient(Db4oClientServer.newClientConfiguration(),
-                host.getHost(), host.getPort(),user.getUser(), user.getPassword());
+    private static synchronized void createInstance() {
+        if (instance == null) {
+            if (user == null) {
+                dlgLogin login = new dlgLogin(null, true);
+                login.setVisible(true);
+                if (login.returnStatus == dlgLogin.RET_OK) {
+                    user = login.getUser();
+                } else {
+                    return;
+                }
+            }
+            try {
+                instance = new DataBase();
+                instance.conectar();
+            } catch (InvalidPasswordException ex) {
+                Utils.errorMsg("Login...", "Usuario o Password Incorrectos!");
+                instance = null;
+                user = null;
+            }
+        }
+    }
+
+    public void conectar() throws InvalidPasswordException {
+        db = Db4oClientServer.openClient(clientConfig.getHost().getHost(), clientConfig.getHost().getPort(), user.getUser(), user.getPassword());
+    }
+
+    public static void desconectar() {
+        if (db != null) {
+            db.close();
+            ClientConfigProvider.deconectar();
+            instance = null;
+        }
+    }
+
+    public static ObjectContainer getInstance() {
+        if (instance == null) {
+            createInstance();
+        }
         return db;
     }
 

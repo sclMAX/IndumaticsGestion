@@ -1,12 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package indumaticsgestion.guis.ventas;
+package indumaticsgestion.guis.produccion;
 
-import com.db4o.ObjectContainer;
-import indumaticsgestion.data.comun.DataBase;
 import indumaticsgestion.guis.comun.VentanaContenido;
 import indumaticsgestion.guis.principal.VentanaPrincipal;
 import javax.swing.JPanel;
@@ -15,9 +8,9 @@ import javax.swing.JPanel;
  *
  * @author Maxi
  */
-public class VentasMain extends VentanaContenido {
+public class ProduccionMain extends VentanaContenido {
 
-    public VentasMain(VentanaPrincipal base, JPanel padre) {
+    public ProduccionMain(VentanaPrincipal base, JPanel padre) {
         super(base, padre);
         initComponents();
     }
@@ -63,7 +56,7 @@ public class VentasMain extends VentanaContenido {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        setPanel(new ClientesMain(base, this));
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
 

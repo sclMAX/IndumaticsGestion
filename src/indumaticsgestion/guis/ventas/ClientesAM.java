@@ -27,7 +27,6 @@ public class ClientesAM extends javax.swing.JPanel {
     final static int stINSERT = 1;
     final static int stEDIT = 2;
     int state = stINSERT;
-    private final DataBase db;
     private final ClienteProvider provider;
 
     /**
@@ -36,9 +35,8 @@ public class ClientesAM extends javax.swing.JPanel {
      * @param cliente
      * @param db
      */
-    public ClientesAM(Cliente cliente, DataBase db) {
+    public ClientesAM(Cliente cliente) {
         initComponents();
-        this.db = db;
         if (cliente != null) {
             this.cliente = cliente;
             this.state = stEDIT;
@@ -46,7 +44,7 @@ public class ClientesAM extends javax.swing.JPanel {
             this.cliente = new Cliente();
             this.state = stINSERT;
         }
-        this.provider = new ClienteProvider(db);
+        this.provider = new ClienteProvider();
     }
 
     /**

@@ -3,7 +3,13 @@ package indumaticsgestion.servidor.clases;
 import com.db4o.ObjectServer;
 import com.db4o.cs.Db4oClientServer;
 import com.db4o.cs.config.ServerConfiguration;
+import com.db4o.ext.DatabaseFileLockedException;
+import com.db4o.ext.DatabaseReadOnlyException;
+import com.db4o.ext.Db4oIOException;
+import com.db4o.ext.IncompatibleFileFormatException;
+import com.db4o.ext.OldFormatException;
 import indumaticsgestion.data.comun.Usuario;
+import indumaticsgestion.data.comun.Utils;
 
 /**
  *
@@ -11,25 +17,38 @@ import indumaticsgestion.data.comun.Usuario;
  */
 public class Servidor {
 
-    private  ServerConfig config;
-    private ObjectServer server = null;
-    private boolean runing = false;
+    private static Servidor instance = null;
+    private static  ServerConfig config = ServerConfigProvider.getInstance();
+    private static ObjectServer server = null;
 
-    public boolean isRuning() {
-        return runing;
-    }
+    private Servidor(){ }
+    
+    private synchronized static void createInstance() {
+		if (instance == null) {
+			instance = new Servidor();
+			instance.starServer();
+		}
+	}
 
-    public Servidor(ServerConfig config){
-        this.config = config;
-    }
-
-    public Boolean starServer() throws Exception {
+    public void starServer(){
+        try{
         server = Db4oClientServer.openServer(getServerConfiguration(), config.getDbpath(), config.getPort());
         for (Usuario user : config.getUsers()) {
             server.grantAccess(user.getUser(), user.getPassword());
         }
-        runing = server != null;
-        return isRuning();
+        } catch (Db4oIOException | DatabaseFileLockedException | DatabaseReadOnlyException ex) {
+                Utils.errorMsg("Error en Base de Datos...", "Archivo Bloqueado!\nERROR:" + ex.getMessage());
+                instance = null;
+            } catch (IncompatibleFileFormatException | OldFormatException ex) {
+                Utils.errorMsg("Error en Base de Datos...", "Version no compatible!\nERROR:" + ex.getMessage());
+                instance = null;
+            } 
+    }
+    public static ObjectServer getInstance(){
+        if(instance == null){
+            createInstance();
+        }
+        return server;
     }
 
     private ServerConfiguration getServerConfiguration() {
@@ -38,13 +57,14 @@ public class Servidor {
         return sc;
     }
 
-    public void stopServer() {
+    public static  void stopServer() {
         if (server != null) {
             server.close();
-            runing = false;
         }
+        ServerConfigProvider.desconectar();
     }
     public void setConfig(ServerConfig config){
+        ServerConfigProvider.setConfig(config);
         this.config = config;
     }
 }
