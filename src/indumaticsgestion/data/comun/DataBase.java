@@ -20,7 +20,11 @@ public class DataBase {
 
     private static DataBase instance = null;
     private static Usuario user = null;
+<<<<<<< HEAD
     private static final ClientConfig clientConfig = ClientConfigProvider.getInstance();
+=======
+    private static ClientConfig clientConfig = ClientConfigProvider.getInstance();
+>>>>>>> d5bafe3dfec88665d1311b634d88ee3070bd35bb
     private static ObjectContainer db = null;
 
     /**
@@ -31,6 +35,7 @@ public class DataBase {
     private DataBase() {
     }
 
+<<<<<<< HEAD
     private static synchronized void createInstance() {
         if (instance == null) {
             if (user == null) {
@@ -55,6 +60,27 @@ public class DataBase {
 
     public void conectar() throws InvalidPasswordException {
         db = Db4oClientServer.openClient(clientConfig.getHost().getHost(), clientConfig.getHost().getPort(), user.getUser(), user.getPassword());
+=======
+    private static synchronized void createInstance() throws InvalidPasswordException,
+            Db4oIOException, DatabaseFileLockedException, DatabaseReadOnlyException,
+            IncompatibleFileFormatException, OldFormatException{
+        if (instance == null) {
+            instance = new DataBase();
+            instance.conectar(user);
+        }
+    }
+
+    public void conectar(Usuario user) throws InvalidPasswordException,
+            Db4oIOException, DatabaseFileLockedException, DatabaseReadOnlyException,
+            IncompatibleFileFormatException, OldFormatException{
+        if (db != null) {
+            desconectar();
+            clientConfig = ClientConfigProvider.getInstance();
+        }
+        db = Db4oClientServer.openClient(Db4oClientServer.newClientConfiguration(),
+                clientConfig.getHost().getHost(), clientConfig.getHost().getPort(),
+                user.getUser(), user.getPassword());
+>>>>>>> d5bafe3dfec88665d1311b634d88ee3070bd35bb
     }
 
     public static void desconectar() {
@@ -65,7 +91,23 @@ public class DataBase {
         }
     }
 
+<<<<<<< HEAD
     public static ObjectContainer getInstance() {
+=======
+    public static ObjectContainer getInstance(Usuario user) throws InvalidPasswordException,
+            Db4oIOException, DatabaseFileLockedException, DatabaseReadOnlyException,
+            IncompatibleFileFormatException, OldFormatException{
+        if (instance == null) {
+            instance.user = user;
+            createInstance();
+        }
+        return db;
+    }
+
+    public static ObjectContainer getInstance() throws InvalidPasswordException,
+            Db4oIOException, DatabaseFileLockedException, DatabaseReadOnlyException,
+            IncompatibleFileFormatException, OldFormatException {
+>>>>>>> d5bafe3dfec88665d1311b634d88ee3070bd35bb
         if (instance == null) {
             createInstance();
         }

@@ -33,7 +33,10 @@ public class ServidorMain extends java.awt.Dialog {
         initComponents();
         this.setLocationRelativeTo(null);
         setIconImage(Utils.iconToImage(jlLogo.getIcon()));
+<<<<<<< HEAD
         setData();
+=======
+>>>>>>> d5bafe3dfec88665d1311b634d88ee3070bd35bb
     }
 
     public ServerConfig getConfig() {

@@ -4,9 +4,13 @@
   <Properties>
     <Property name="focusCycleRoot" type="boolean" value="false"/>
     <Property name="focusTraversalPolicyProvider" type="boolean" value="true"/>
+<<<<<<< HEAD
     <Property name="title" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
       <ResourceString bundle="indumaticsgestion/recursos/strings.properties" key="config_client" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
     </Property>
+=======
+    <Property name="title" type="java.lang.String" value="Login"/>
+>>>>>>> d5bafe3dfec88665d1311b634d88ee3070bd35bb
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
@@ -83,7 +87,11 @@
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="32767" attributes="0"/>
+<<<<<<< HEAD
                       <Component id="jToolBar1" min="-2" max="-2" attributes="0"/>
+=======
+                      <Component id="jToolBar1" min="-2" pref="50" max="-2" attributes="0"/>
+>>>>>>> d5bafe3dfec88665d1311b634d88ee3070bd35bb
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -182,7 +190,11 @@
                                       <Component id="jLabel3" alignment="0" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
+<<<<<<< HEAD
                               <EmptySpace min="0" pref="111" max="32767" attributes="0"/>
+=======
+                              <EmptySpace min="0" pref="112" max="32767" attributes="0"/>
+>>>>>>> d5bafe3dfec88665d1311b634d88ee3070bd35bb
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>

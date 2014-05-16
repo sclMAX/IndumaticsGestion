@@ -4,6 +4,10 @@ import indumaticsgestion.data.comun.ClientConfig;
 import indumaticsgestion.data.comun.ClientConfigProvider;
 import indumaticsgestion.data.comun.Host;
 import indumaticsgestion.data.comun.Utils;
+<<<<<<< HEAD
+=======
+import java.awt.FileDialog;
+>>>>>>> d5bafe3dfec88665d1311b634d88ee3070bd35bb
 
 public class dlgClientConfig extends java.awt.Dialog {
 
@@ -23,7 +27,10 @@ public class dlgClientConfig extends java.awt.Dialog {
         initComponents();
         this.setLocationRelativeTo(null);
         setIconImage(Utils.iconToImage(jlLogo.getIcon()));
+<<<<<<< HEAD
         setData();
+=======
+>>>>>>> d5bafe3dfec88665d1311b634d88ee3070bd35bb
     }
 
     /**
@@ -49,8 +56,12 @@ public class dlgClientConfig extends java.awt.Dialog {
 
         setFocusCycleRoot(false);
         setFocusTraversalPolicyProvider(true);
+<<<<<<< HEAD
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("indumaticsgestion/recursos/strings"); // NOI18N
         setTitle(bundle.getString("config_client")); // NOI18N
+=======
+        setTitle("Login");
+>>>>>>> d5bafe3dfec88665d1311b634d88ee3070bd35bb
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 closeDialog(evt);
@@ -106,7 +117,11 @@ public class dlgClientConfig extends java.awt.Dialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+<<<<<<< HEAD
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+=======
+                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+>>>>>>> d5bafe3dfec88665d1311b634d88ee3070bd35bb
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -134,6 +149,10 @@ public class dlgClientConfig extends java.awt.Dialog {
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 204));
+<<<<<<< HEAD
+=======
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("indumaticsgestion/recursos/strings"); // NOI18N
+>>>>>>> d5bafe3dfec88665d1311b634d88ee3070bd35bb
         jLabel2.setText(bundle.getString("host")); // NOI18N
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -157,7 +176,11 @@ public class dlgClientConfig extends java.awt.Dialog {
                             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(jsPort, javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+<<<<<<< HEAD
                         .addGap(0, 111, Short.MAX_VALUE)))
+=======
+                        .addGap(0, 112, Short.MAX_VALUE)))
+>>>>>>> d5bafe3dfec88665d1311b634d88ee3070bd35bb
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(

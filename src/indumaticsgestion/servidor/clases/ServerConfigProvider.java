@@ -4,6 +4,7 @@ import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
 import com.db4o.config.EmbeddedConfiguration;
 import com.db4o.constraints.UniqueFieldValueConstraint;
+<<<<<<< HEAD
 import com.db4o.ext.DatabaseFileLockedException;
 import com.db4o.ext.DatabaseReadOnlyException;
 import com.db4o.ext.Db4oIOException;
@@ -12,6 +13,10 @@ import com.db4o.ext.OldFormatException;
 import com.db4o.query.Query;
 import indumaticsgestion.data.comun.Usuario;
 import indumaticsgestion.data.comun.Utils;
+=======
+import com.db4o.query.Query;
+import indumaticsgestion.data.comun.Usuario;
+>>>>>>> d5bafe3dfec88665d1311b634d88ee3070bd35bb
 import java.util.List;
 
 /**
@@ -34,7 +39,14 @@ public class ServerConfigProvider {
             instance.conectar();
         }
     }
+    
+    public static void setConfig(ServerConfig data){
+        db.delete(serverconfig);
+        serverconfig = data;
+        db.store(serverconfig);
+    }
 
+<<<<<<< HEAD
     public static void setConfig(ServerConfig data) {
         db.delete(serverconfig);
         serverconfig = data;
@@ -81,4 +93,34 @@ public class ServerConfigProvider {
         }
         return serverconfig;
     }
+=======
+    public void conectar() {
+        EmbeddedConfiguration config = Db4oEmbedded.newConfiguration();
+        config.common().add(
+                new UniqueFieldValueConstraint(Usuario.class, "nombre"));
+        db = Db4oEmbedded.openFile(config, DB_CONFIG_FILE);
+        final Query query = db.query();
+        query.constrain(ServerConfig.class);
+        List<ServerConfig> data = query.execute();
+        if (!data.isEmpty()) {
+            serverconfig = data.get(0);
+        } else {
+            serverconfig = new ServerConfig();
+            db.store(serverconfig);
+        }
+    }
+
+    public static void desconectar() {
+        if (db != null) {
+            db.close();
+        }
+    }
+    
+    public static ServerConfig getInstance(){
+        if(instance == null){
+            createInstance();
+        }
+        return serverconfig;
+    }
+>>>>>>> d5bafe3dfec88665d1311b634d88ee3070bd35bb
 }

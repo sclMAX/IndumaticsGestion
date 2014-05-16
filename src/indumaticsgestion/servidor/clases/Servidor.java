@@ -31,11 +31,15 @@ public class Servidor {
 	}
 
     public void starServer(){
+<<<<<<< HEAD
         try{
+=======
+>>>>>>> d5bafe3dfec88665d1311b634d88ee3070bd35bb
         server = Db4oClientServer.openServer(getServerConfiguration(), config.getDbpath(), config.getPort());
         for (Usuario user : config.getUsers()) {
             server.grantAccess(user.getUser(), user.getPassword());
         }
+<<<<<<< HEAD
         } catch (Db4oIOException | DatabaseFileLockedException | DatabaseReadOnlyException ex) {
                 Utils.errorMsg("Error en Base de Datos...", "Archivo Bloqueado!\nERROR:" + ex.getMessage());
                 instance = null;
@@ -43,6 +47,8 @@ public class Servidor {
                 Utils.errorMsg("Error en Base de Datos...", "Version no compatible!\nERROR:" + ex.getMessage());
                 instance = null;
             } 
+=======
+>>>>>>> d5bafe3dfec88665d1311b634d88ee3070bd35bb
     }
     public static ObjectServer getInstance(){
         if(instance == null){
