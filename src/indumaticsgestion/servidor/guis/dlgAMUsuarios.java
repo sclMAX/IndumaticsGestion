@@ -7,7 +7,7 @@ package indumaticsgestion.servidor.guis;
 
 import indumaticsgestion.data.comun.Usuario;
 import indumaticsgestion.data.comun.Utils;
-
+import indumaticsgestion.servidor.clases.ServerConfigProvider;
 
 /**
  *
@@ -25,11 +25,11 @@ public class dlgAMUsuarios extends java.awt.Dialog {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setIconImage(Utils.iconToImage(jlLogo.getIcon()));
-        if(user != null){
+        if (user != null) {
             this.user = user;
             this.setTitle("Editar Usuario...");
             setData();
-        }else{
+        } else {
             this.user = new Usuario();
             this.setTitle("Nuevo Usuario...");
         }
@@ -45,16 +45,16 @@ public class dlgAMUsuarios extends java.awt.Dialog {
         user.setUser(jtUser.getText());
         user.setPassword(jtPassword.getPassword());
         user.setIsAdministrador(chkIsAdministrador.isSelected());
-        
+
     }
-    
+
     private void setData() {
         jtUser.setText(user.getUser());
         jtPassword.setText(user.getPassword());
         chkIsAdministrador.setSelected(user.isIsAdministrador());
     }
-    
-    public Usuario getUser(){
+
+    public Usuario getUser() {
         return this.user;
     }
 
@@ -223,7 +223,9 @@ public class dlgAMUsuarios extends java.awt.Dialog {
 
     private void btnOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOkActionPerformed
         getData();
-        doClose(RET_OK);
+        if (ServerConfigProvider.addUser(user)) {
+            doClose(RET_OK);
+        }
     }//GEN-LAST:event_btnOkActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed

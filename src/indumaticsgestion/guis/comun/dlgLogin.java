@@ -255,8 +255,7 @@ public class dlgLogin extends java.awt.Dialog {
     }//GEN-LAST:event_jtUsuarioKeyPressed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       dlgClientConfig dlg = new dlgClientConfig(null, true);
-       dlg.setVisible(true);
+ 
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void doClose(int retStatus) {

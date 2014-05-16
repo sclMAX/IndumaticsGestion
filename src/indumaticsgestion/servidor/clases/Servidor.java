@@ -18,40 +18,37 @@ import indumaticsgestion.data.comun.Utils;
 public class Servidor {
 
     private static Servidor instance = null;
-    private static  ServerConfig config = ServerConfigProvider.getInstance();
+    private  ServerConfig config;
     private static ObjectServer server = null;
 
-    private Servidor(){ }
-    
-    private synchronized static void createInstance() {
-		if (instance == null) {
-			instance = new Servidor();
-			instance.starServer();
-		}
-	}
-
-    public void starServer(){
-<<<<<<< HEAD
-        try{
-=======
->>>>>>> d5bafe3dfec88665d1311b634d88ee3070bd35bb
-        server = Db4oClientServer.openServer(getServerConfiguration(), config.getDbpath(), config.getPort());
-        for (Usuario user : config.getUsers()) {
-            server.grantAccess(user.getUser(), user.getPassword());
-        }
-<<<<<<< HEAD
-        } catch (Db4oIOException | DatabaseFileLockedException | DatabaseReadOnlyException ex) {
-                Utils.errorMsg("Error en Base de Datos...", "Archivo Bloqueado!\nERROR:" + ex.getMessage());
-                instance = null;
-            } catch (IncompatibleFileFormatException | OldFormatException ex) {
-                Utils.errorMsg("Error en Base de Datos...", "Version no compatible!\nERROR:" + ex.getMessage());
-                instance = null;
-            } 
-=======
->>>>>>> d5bafe3dfec88665d1311b634d88ee3070bd35bb
+    private Servidor() {
+        this.config = ServerConfigProvider.getInstance();
     }
-    public static ObjectServer getInstance(){
-        if(instance == null){
+
+    private synchronized static void createInstance() {
+        if (instance == null) {
+            instance = new Servidor();
+            instance.starServer();
+        }
+    }
+
+    public void starServer() {
+        try {
+            server = Db4oClientServer.openServer(getServerConfiguration(), config.getDbpath(), config.getPort());
+            for (Usuario user : config.getUsers()) {
+                server.grantAccess(user.getUser(), user.getPassword());
+            }
+        } catch (Db4oIOException | DatabaseFileLockedException | DatabaseReadOnlyException ex) {
+            Utils.errorMsg("Error en Base de Datos...", "Archivo Bloqueado!\nERROR:" + ex.getMessage());
+            instance = null;
+        } catch (IncompatibleFileFormatException | OldFormatException ex) {
+            Utils.errorMsg("Error en Base de Datos...", "Version no compatible!\nERROR:" + ex.getMessage());
+            instance = null;
+        }
+    }
+
+    public static ObjectServer getInstance() {
+        if (instance == null) {
             createInstance();
         }
         return server;
@@ -63,13 +60,14 @@ public class Servidor {
         return sc;
     }
 
-    public static  void stopServer() {
+    public static void stopServer() {
         if (server != null) {
             server.close();
         }
         ServerConfigProvider.desconectar();
     }
-    public void setConfig(ServerConfig config){
+
+    public void setConfig(ServerConfig config) {
         ServerConfigProvider.setConfig(config);
         this.config = config;
     }

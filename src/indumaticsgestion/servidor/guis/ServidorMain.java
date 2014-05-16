@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package indumaticsgestion.servidor.guis;
 
 import indumaticsgestion.data.comun.Usuario;
@@ -12,13 +7,9 @@ import indumaticsgestion.servidor.clases.ServerConfigProvider;
 import java.awt.FileDialog;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author Maxi
- */
 public class ServidorMain extends java.awt.Dialog {
 
-    private static ServerConfig serverconfig = ServerConfigProvider.getInstance();
+    private final  ServerConfig serverconfig;
     public static final int RET_CANCEL = 0;
     public static final int RET_OK = 1;
     public int returnStatus = RET_CANCEL;
@@ -30,13 +21,11 @@ public class ServidorMain extends java.awt.Dialog {
      */
     public ServidorMain(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+        this.serverconfig = ServerConfigProvider.getInstance();
         initComponents();
         this.setLocationRelativeTo(null);
         setIconImage(Utils.iconToImage(jlLogo.getIcon()));
-<<<<<<< HEAD
         setData();
-=======
->>>>>>> d5bafe3dfec88665d1311b634d88ee3070bd35bb
     }
 
     public ServerConfig getConfig() {
