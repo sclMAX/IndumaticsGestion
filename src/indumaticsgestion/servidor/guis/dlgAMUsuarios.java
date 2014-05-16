@@ -18,7 +18,7 @@ public class dlgAMUsuarios extends java.awt.Dialog {
     public static final int RET_CANCEL = 0;
     public static final int RET_OK = 1;
     public int returnStatus = RET_CANCEL;
-    private Usuario user;
+    private final Usuario user;
 
     public dlgAMUsuarios(java.awt.Frame parent, boolean modal, Usuario user) {
         super(parent, modal);
@@ -44,11 +44,14 @@ public class dlgAMUsuarios extends java.awt.Dialog {
     private void getData() {
         user.setUser(jtUser.getText());
         user.setPassword(jtPassword.getPassword());
+        user.setIsAdministrador(chkIsAdministrador.isSelected());
+        
     }
     
     private void setData() {
         jtUser.setText(user.getUser());
         jtPassword.setText(user.getPassword());
+        chkIsAdministrador.setSelected(user.isIsAdministrador());
     }
     
     public Usuario getUser(){
@@ -73,6 +76,7 @@ public class dlgAMUsuarios extends java.awt.Dialog {
         jtUser = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jtPassword = new javax.swing.JPasswordField();
+        chkIsAdministrador = new javax.swing.JCheckBox();
 
         setBackground(new java.awt.Color(51, 102, 255));
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -155,6 +159,9 @@ public class dlgAMUsuarios extends java.awt.Dialog {
         jLabel2.setForeground(new java.awt.Color(255, 255, 204));
         jLabel2.setText(bundle.getString("telefonoTipo")); // NOI18N
 
+        chkIsAdministrador.setText("Administrador");
+        chkIsAdministrador.setOpaque(false);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -163,12 +170,13 @@ public class dlgAMUsuarios extends java.awt.Dialog {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jtUser)
+                    .addComponent(jtPassword)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addComponent(jLabel2))
-                        .addGap(0, 244, Short.MAX_VALUE))
-                    .addComponent(jtPassword))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(chkIsAdministrador, javax.swing.GroupLayout.DEFAULT_SIZE, 303, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -182,6 +190,8 @@ public class dlgAMUsuarios extends java.awt.Dialog {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(chkIsAdministrador)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -243,6 +253,7 @@ public class dlgAMUsuarios extends java.awt.Dialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnOk;
+    private javax.swing.JCheckBox chkIsAdministrador;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel2;

@@ -19,11 +19,9 @@ import javax.swing.JPanel;
 public class ClientesMain extends VentanaContenido {
 
     Cliente cliente = null;
-    private DataBase db;
 
-    public ClientesMain(VentanaPrincipal base, JPanel padre, DataBase db) {
+    public ClientesMain(VentanaPrincipal base, JPanel padre) {
         super(base, padre);
-        this.db = db;
         initComponents();
     }
 
@@ -84,6 +82,11 @@ public class ClientesMain extends VentanaContenido {
         btnBuscar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnBuscar.setOpaque(false);
         btnBuscar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
         jToolBar1.add(btnBuscar);
         jToolBar1.add(jSeparator5);
 
@@ -154,7 +157,7 @@ public class ClientesMain extends VentanaContenido {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
-        ClientesAM clienteAM = new ClientesAM(null, db);
+        ClientesAM clienteAM = new ClientesAM(null);
         cargarContenido(clienteAM);
     }//GEN-LAST:event_btnNuevoActionPerformed
 
@@ -164,12 +167,16 @@ public class ClientesMain extends VentanaContenido {
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         if (cliente != null) {
-            ClientesAM clienteAM = new ClientesAM(cliente, db);
+            ClientesAM clienteAM = new ClientesAM(cliente);
             cargarContenido(clienteAM);
         } else {
             JOptionPane.showMessageDialog(null, "Debe seleccionar un Cliente!");
         }
     }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+       
+    }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void cargarContenido(JPanel contenido) {
         contenido.setVisible(true);

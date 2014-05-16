@@ -1,19 +1,20 @@
 package indumaticsgestion.guis.comun;
 
-import indumaticsgestion.data.comun.Usuario;
+import indumaticsgestion.data.comun.ClientConfig;
+import indumaticsgestion.data.comun.ClientConfigProvider;
+import indumaticsgestion.data.comun.Host;
 import indumaticsgestion.data.comun.Utils;
+<<<<<<< HEAD
+=======
+import java.awt.FileDialog;
+>>>>>>> d5bafe3dfec88665d1311b634d88ee3070bd35bb
 
-/**
- *
- * @author Maxi
- */
-public class dlgLogin extends java.awt.Dialog {
+public class dlgClientConfig extends java.awt.Dialog {
 
     public static final int RET_CANCEL = 0;
     public static final int RET_OK = 1;
     public int returnStatus = RET_CANCEL;
-
-    private Usuario user;
+    private static final ClientConfig config = ClientConfigProvider.getInstance();
 
     /**
      * Creates new form dlgLogin
@@ -21,11 +22,15 @@ public class dlgLogin extends java.awt.Dialog {
      * @param parent
      * @param modal
      */
-    public dlgLogin(java.awt.Frame parent, boolean modal) {
+    public dlgClientConfig(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(null);
         setIconImage(Utils.iconToImage(jlLogo.getIcon()));
+<<<<<<< HEAD
+        setData();
+=======
+>>>>>>> d5bafe3dfec88665d1311b634d88ee3070bd35bb
     }
 
     /**
@@ -39,19 +44,24 @@ public class dlgLogin extends java.awt.Dialog {
         jPanel2 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jToolBar1 = new javax.swing.JToolBar();
-        jButton1 = new javax.swing.JButton();
         btnOK = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JToolBar.Separator();
         btnCancel = new javax.swing.JButton();
         jlLogo = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        jtUsuario = new javax.swing.JTextField();
-        jtPassword = new javax.swing.JPasswordField();
+        jtHost = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        jsPort = new javax.swing.JSpinner();
 
         setFocusCycleRoot(false);
         setFocusTraversalPolicyProvider(true);
+<<<<<<< HEAD
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("indumaticsgestion/recursos/strings"); // NOI18N
+        setTitle(bundle.getString("config_client")); // NOI18N
+=======
         setTitle("Login");
+>>>>>>> d5bafe3dfec88665d1311b634d88ee3070bd35bb
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 closeDialog(evt);
@@ -68,20 +78,6 @@ public class dlgLogin extends java.awt.Dialog {
         jToolBar1.setRollover(true);
         jToolBar1.setOpaque(false);
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/indumaticsgestion/recursos/iconos/setting_48x48.gif"))); // NOI18N
-        jButton1.setToolTipText("");
-        jButton1.setBorder(null);
-        jButton1.setFocusable(false);
-        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton1.setOpaque(false);
-        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(jButton1);
-
         btnOK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/indumaticsgestion/recursos/iconos/btn_ok_48x48.gif"))); // NOI18N
         btnOK.setBorder(null);
         btnOK.setFocusable(false);
@@ -94,6 +90,7 @@ public class dlgLogin extends java.awt.Dialog {
             }
         });
         jToolBar1.add(btnOK);
+        jToolBar1.add(jSeparator1);
 
         btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/indumaticsgestion/recursos/iconos/btn_cancel_48x48.gif"))); // NOI18N
         btnCancel.setBorder(null);
@@ -108,7 +105,7 @@ public class dlgLogin extends java.awt.Dialog {
         });
         jToolBar1.add(btnCancel);
 
-        jlLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/indumaticsgestion/recursos/iconos/logo.gif"))); // NOI18N
+        jlLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/indumaticsgestion/recursos/iconos/setting_48x48.gif"))); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -120,7 +117,11 @@ public class dlgLogin extends java.awt.Dialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+<<<<<<< HEAD
+                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+=======
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+>>>>>>> d5bafe3dfec88665d1311b634d88ee3070bd35bb
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -128,42 +129,38 @@ public class dlgLogin extends java.awt.Dialog {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jlLogo)
-                .addGap(18, 18, 18)
-                .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
+                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         jPanel3.setFocusTraversalPolicyProvider(true);
-        jPanel3.setNextFocusableComponent(jtUsuario);
+        jPanel3.setNextFocusableComponent(jtHost);
         jPanel3.setOpaque(false);
 
-        jtUsuario.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jtUsuario.setToolTipText("Ingrese su Nobre de Usuario");
-        jtUsuario.setFocusTraversalPolicyProvider(true);
-        jtUsuario.setNextFocusableComponent(jtPassword);
-        jtUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
+        jtHost.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jtHost.setToolTipText("Ingrese su Nobre de Usuario");
+        jtHost.setFocusTraversalPolicyProvider(true);
+        jtHost.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                jtUsuarioKeyPressed(evt);
-            }
-        });
-
-        jtPassword.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jtPassword.setFocusTraversalPolicyProvider(true);
-        jtPassword.setNextFocusableComponent(btnOK);
-        jtPassword.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jtPasswordKeyPressed(evt);
+                jtHostKeyPressed(evt);
             }
         });
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 204));
+<<<<<<< HEAD
+=======
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("indumaticsgestion/recursos/strings"); // NOI18N
-        jLabel2.setText(bundle.getString("user")); // NOI18N
+>>>>>>> d5bafe3dfec88665d1311b634d88ee3070bd35bb
+        jLabel2.setText(bundle.getString("host")); // NOI18N
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 204));
-        jLabel3.setText(bundle.getString("password")); // NOI18N
+        jLabel3.setText(bundle.getString("port")); // NOI18N
+
+        jsPort.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jsPort.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(8080), null, null, Integer.valueOf(1)));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -172,13 +169,18 @@ public class dlgLogin extends java.awt.Dialog {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jtUsuario)
+                    .addComponent(jtHost)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
-                            .addComponent(jLabel3))
-                        .addGap(0, 181, Short.MAX_VALUE))
-                    .addComponent(jtPassword))
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jsPort, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+<<<<<<< HEAD
+                        .addGap(0, 111, Short.MAX_VALUE)))
+=======
+                        .addGap(0, 112, Short.MAX_VALUE)))
+>>>>>>> d5bafe3dfec88665d1311b634d88ee3070bd35bb
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -187,12 +189,12 @@ public class dlgLogin extends java.awt.Dialog {
                 .addGap(30, 30, 30)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(jtHost, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(13, 13, 13)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jsPort, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(88, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -232,32 +234,19 @@ public class dlgLogin extends java.awt.Dialog {
         dispose();
     }//GEN-LAST:event_closeDialog
 
-    private void jtPasswordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtPasswordKeyPressed
-        if (java.awt.event.KeyEvent.VK_ENTER == evt.getKeyCode()) {
-            btnOKActionPerformed(null);
-        }
-    }//GEN-LAST:event_jtPasswordKeyPressed
-
     private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
         getData();
+        ClientConfigProvider.setConfig(config);
         doClose(RET_OK);
     }//GEN-LAST:event_btnOKActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        user = null;
         doClose(RET_CANCEL);
     }//GEN-LAST:event_btnCancelActionPerformed
 
-    private void jtUsuarioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtUsuarioKeyPressed
-        if(evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER){
-            jtPassword.requestFocus();
-        }
-    }//GEN-LAST:event_jtUsuarioKeyPressed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       dlgClientConfig dlg = new dlgClientConfig(null, true);
-       dlg.setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void jtHostKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtHostKeyPressed
+        
+    }//GEN-LAST:event_jtHostKeyPressed
 
     private void doClose(int retStatus) {
         returnStatus = retStatus;
@@ -266,11 +255,14 @@ public class dlgLogin extends java.awt.Dialog {
     }
 
     private void getData() {
-        user = new Usuario(jtUsuario.getText(), jtPassword.getPassword());
+        config.setHost(new Host(jtHost.getText(),(int)jsPort.getValue()));
     }
-
-    public Usuario getUser() {
-        return user;
+    
+    private void setData(){
+        if(config != null){
+            jtHost.setText(config.getHost().getHost());
+            jsPort.setValue((int)config.getHost().getPort());
+        }
     }
 
     /**
@@ -280,7 +272,7 @@ public class dlgLogin extends java.awt.Dialog {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                dlgLogin dialog = new dlgLogin(new java.awt.Frame(), true);
+                dlgClientConfig dialog = new dlgClientConfig(new java.awt.Frame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -296,16 +288,16 @@ public class dlgLogin extends java.awt.Dialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnOK;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JLabel jlLogo;
-    private javax.swing.JPasswordField jtPassword;
-    private javax.swing.JTextField jtUsuario;
+    private javax.swing.JSpinner jsPort;
+    private javax.swing.JTextField jtHost;
     // End of variables declaration//GEN-END:variables
 
 }

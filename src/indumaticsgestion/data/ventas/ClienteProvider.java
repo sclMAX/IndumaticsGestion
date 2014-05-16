@@ -1,14 +1,5 @@
 package indumaticsgestion.data.ventas;
 
-import com.db4o.ObjectContainer;
-import com.db4o.ObjectSet;
-import com.db4o.ext.DatabaseClosedException;
-import com.db4o.ext.DatabaseFileLockedException;
-import com.db4o.ext.DatabaseReadOnlyException;
-import com.db4o.ext.Db4oIOException;
-import com.db4o.ext.IncompatibleFileFormatException;
-import com.db4o.ext.OldFormatException;
-import com.db4o.query.Query;
 import indumaticsgestion.data.comun.DataBase;
 import indumaticsgestion.data.comun.Provider;
 
@@ -18,12 +9,12 @@ import indumaticsgestion.data.comun.Provider;
  */
 public class ClienteProvider extends Provider {
 
-    public ClienteProvider(DataBase db) {
-        super(db);
+    public ClienteProvider() {
+        super();
     }
 
    
-    public void add(Object data) throws DatabaseClosedException, DatabaseReadOnlyException {
+    public void add(Object data) {
         Cliente cl = (Cliente)data;
      //   cl.setId(getNextId());
         data = cl;

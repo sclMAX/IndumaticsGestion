@@ -6,6 +6,8 @@ package indumaticsgestion.data.comun;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.Icon;
@@ -44,6 +46,15 @@ public class Utils {
 
     public static void msg(String title, String msg) {
         JOptionPane.showMessageDialog(null, msg, title, JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    public static Date now(){
+        return new Date(System.currentTimeMillis());
+    }
+    
+    public static String DateTimeToStr(Date date){
+        SimpleDateFormat dFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+        return dFormat.format(date);
     }
 
     public static boolean validaCuit(String cuit) {

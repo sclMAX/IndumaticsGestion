@@ -5,16 +5,7 @@
  */
 package indumaticsgestion;
 
-import com.db4o.ext.DatabaseFileLockedException;
-import com.db4o.ext.DatabaseReadOnlyException;
-import com.db4o.ext.Db4oIOException;
-import com.db4o.ext.IncompatibleFileFormatException;
-import com.db4o.ext.InvalidPasswordException;
-import com.db4o.ext.OldFormatException;
 import indumaticsgestion.data.comun.DataBase;
-import indumaticsgestion.data.comun.Host;
-import indumaticsgestion.data.comun.Utils;
-import indumaticsgestion.guis.comun.dlgLogin;
 import indumaticsgestion.guis.principal.VentanaPrincipal;
 
 /**
@@ -27,6 +18,12 @@ public class IndumaticsGestion {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+<<<<<<< HEAD
+        for(int i=0; i<3;i++){
+        Object obj = DataBase.getInstance();
+        if (obj != null) {
+            new VentanaPrincipal().setVisible(true);
+=======
         for(int i=0;i<3;i++){
         dlgLogin login;
         Host host;
@@ -35,8 +32,8 @@ public class IndumaticsGestion {
         login.setVisible(true);
         if (login.returnStatus == dlgLogin.RET_OK) {
             try {
-                DataBase db = new DataBase(login.getUser(), host);
-                new VentanaPrincipal(db).setVisible(true);
+                DataBase.getInstance(login.getUser());
+                new VentanaPrincipal().setVisible(true);
                 return;
             } catch (Db4oIOException | DatabaseFileLockedException | DatabaseReadOnlyException ex) {
                 Utils.errorMsg("Error en Base de Datos...", "Archivo Bloqueado!\nERROR:" + ex.getMessage());
@@ -46,6 +43,7 @@ public class IndumaticsGestion {
                 Utils.errorMsg("Login...", "Usuario o Password Incorrectos!");
             }
         }else{
+>>>>>>> d5bafe3dfec88665d1311b634d88ee3070bd35bb
             return;
         }
         }

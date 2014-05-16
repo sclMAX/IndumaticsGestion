@@ -150,14 +150,15 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jtUser" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jtPassword" alignment="0" max="32767" attributes="0"/>
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="0" pref="244" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
-                      <Component id="jtPassword" alignment="0" max="32767" attributes="0"/>
+                      <Component id="chkIsAdministrador" alignment="0" pref="303" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -174,6 +175,8 @@
                   <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jtPassword" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="chkIsAdministrador" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -213,6 +216,12 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JPasswordField" name="jtPassword">
+        </Component>
+        <Component class="javax.swing.JCheckBox" name="chkIsAdministrador">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Administrador"/>
+            <Property name="opaque" type="boolean" value="false"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>
