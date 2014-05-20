@@ -1,6 +1,8 @@
 package indumaticsgestion.data.produccion;
 
 import com.db4o.config.annotations.Indexed;
+import com.db4o.constraints.UniqueFieldValueConstraint;
+import com.db4o.cs.config.ServerConfiguration;
 import static indumaticsgestion.data.comun.Utils.now;
 import indumaticsgestion.data.comun.annotations.SearchLike;
 import java.util.Date;
@@ -20,6 +22,13 @@ public class Perfil {
     private Set<Matriz> matrices;
     private Date fechaUltAct;
     private final Date fechaIngreso;
+    
+    public static ServerConfiguration setDBConfig(ServerConfiguration sc){
+        sc.common().add(new UniqueFieldValueConstraint(Perfil.class, "codigo"));
+        sc.common().objectClass(Perfil.class).objectField("matrices").cascadeOnDelete(true);
+        sc.common().objectClass(Perfil.class).objectField("matrices").cascadeOnUpdate(true);
+        return sc; 
+    }
 
     public Perfil(String codigo) {
         this.matrices = new HashSet<>();

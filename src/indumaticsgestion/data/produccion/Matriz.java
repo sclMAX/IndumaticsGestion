@@ -1,6 +1,8 @@
 package indumaticsgestion.data.produccion;
 
 import com.db4o.config.annotations.Indexed;
+import com.db4o.constraints.UniqueFieldValueConstraint;
+import com.db4o.cs.config.ServerConfiguration;
 import static indumaticsgestion.data.comun.Utils.now;
 import indumaticsgestion.data.comun.annotations.SearchLike;
 import java.util.Date;
@@ -19,6 +21,11 @@ public class Matriz {
     private int tempTocho;
     private Date fechaIngreso;
     private Date fechaUltAct;
+
+    public static ServerConfiguration setDBConfig(ServerConfiguration sc) {
+        sc.common().add(new UniqueFieldValueConstraint(Matriz.class, "codigo"));
+        return sc;
+    }
 
     public Matriz(String codigo, double areaPerfil, int bocas) {
         this.codigo = codigo;
@@ -154,5 +161,13 @@ public class Matriz {
     @Override
     public String toString() {
         return codigo;
+    }
+
+    public Date getFechaIngreso() {
+        return fechaIngreso;
+    }
+
+    public Date getFechaUltAct() {
+        return fechaUltAct;
     }
 }

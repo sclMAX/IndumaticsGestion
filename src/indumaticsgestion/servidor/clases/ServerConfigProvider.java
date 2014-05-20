@@ -68,11 +68,13 @@ public class ServerConfigProvider {
     public void conectar() {
         try {
             EmbeddedConfiguration config = Db4oEmbedded.newConfiguration();
-            
+
             config.common().add(new UniqueFieldValueConstraint(Usuario.class, "user"));
+        /*    config.common().objectClass(Usuario.class).objectField("password").indexed(true);
+            config.common().add(new UniqueFieldValueConstraint(Usuario.class, "password"));*/
             config.common().objectClass(ServerConfig.class).objectField("users").cascadeOnDelete(true);
-           config.common().objectClass(ServerConfig.class).objectField("users").cascadeOnUpdate(true);
-            
+            config.common().objectClass(ServerConfig.class).objectField("users").cascadeOnUpdate(true);
+
             db = Db4oEmbedded.openFile(config, DB_CONFIG_FILE);
             final Query query = db.query();
             query.constrain(ServerConfig.class);

@@ -10,6 +10,8 @@ import com.db4o.ext.IncompatibleFileFormatException;
 import com.db4o.ext.OldFormatException;
 import indumaticsgestion.data.comun.Usuario;
 import indumaticsgestion.data.comun.Utils;
+import indumaticsgestion.data.produccion.Matriz;
+import indumaticsgestion.data.produccion.Perfil;
 
 /**
  *
@@ -56,7 +58,8 @@ public class Servidor {
 
     private ServerConfiguration getServerConfiguration() {
         ServerConfiguration sc = Db4oClientServer.newServerConfiguration();
-        //AQUI la configuracion de los Objetos
+        sc = Perfil.setDBConfig(sc);
+        sc = Matriz.setDBConfig(sc);
         return sc;
     }
 
