@@ -28,7 +28,7 @@ public class ProduccionMain extends VentanaContenido {
 
         setOpaque(false);
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/indumaticsgestion/recursos/iconos/clientes_1.gif"))); // NOI18N
+        jButton1.setText("PERFILES");
         jButton1.setBorder(null);
         jButton1.setOpaque(false);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
